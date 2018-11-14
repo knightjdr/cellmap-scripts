@@ -1,0 +1,19 @@
+rank	term	displayname	go	synonyms	ic
+1	[cell junction]	[cell junction]	[GO:0030054]	[]	[7.92]
+2	[nucleus]	[nucleus I]	[GO:0005634]	[[cell nucleus]]	[4.67]
+3	[nuclear outer membrane-endoplasmic reticulum membrane network]	[nuclear outer membrane-endoplasmic reticulum membrane network]	[GO:0042175]	"[[NE-ER continuum, NE-ER network, nuclear envelope-endoplasmic reticulum continuum, nuclear envelope-endoplasmic reticulum network, nuclear envelope-ER network, nuclear membrane-endoplasmic reticulum continuum, nuclear membrane-ER network]]"	[7.82]
+4	[mitochondrial matrix]	[mitochondrial matrix]	[GO:0005759]	"[[mitochondrial lumen, mitochondrial stroma]]"	[8.78]
+5	[centrosome]	[centrosome]	[GO:0005813]	[]	[10]
+6	"[late endosome, lysozome]"	"[late endosome, lysozome]"	"[GO:0005770, GO:0005764]"	"[[prevacuolar compartment, PVC], []]"	"[9.21, 8.43]"
+7	[endoplasmic reticulum lumen]	[endoplasmic reticulum lumen]	[GO:0005788]	"[[cisternal lumen, endoplasmic reticulum cisterna, ER cisterna, ER lumen]]"	[10]
+8	[nucleoplasm]	[nucleoplasm]	[GO:0005654]	[]	[6.95]
+9	[plasma membrane]	[plasma membrane]	[GO:0005886]	"[[bacterial inner membrane, cell membrane, cellular membrane, cytoplasmic membrane, inner endospore membrane, juxtamembrane, plasma membrane lipid bilayer, plasmalemma]]"	[5.23]
+10	[nucleolus]	[nucleolus]	[GO:0005730]	[]	[8.56]
+11	"[mitochondrial outer membrane, peroxisome]"	"[mitochondrial outer membrane, peroxisome]"	"[GO:0005741, GO:0005777]"	"[[outer mitochondrial membrane], [peroxisomal, peroxisome vesicle]]"	"[9.66, 8.66]"
+12	[nucleus]	[nucleus II]	[GO:0005634]	[[cell nucleus]]	[4.67]
+13	[cytoskeleton]	[cytoskeleton]	[GO:0005856]	[]	[5.46]
+14	[vesicle]	[vesicle]	[GO:0031982]	"[[membrane-bounded vesicle, membrane-enclosed vesicle]]"	[4.91]
+15	"[endoplasmic reticulum membrane, Golgi membrane]"	"[endoplasmic reticulum membrane, Golgi membrane]"	"[GO:0005789, GO:0000139]"	"[[ER membrane], []]"	"[7.92, 9.21]"
+16	[mitochondrial envelope]	[mitochondrial envelope]	[GO:0005740]	[]	[7.15]
+17	[unknown]	[unknown]	[]	[]	[]
+18	[cytosol]	[cytosol]	[GO:0005829]	[]	[7.03]

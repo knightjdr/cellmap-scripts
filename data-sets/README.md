@@ -7,6 +7,14 @@
 * go to Current Release
 * download file BIOGRID-ORGANISM-X.X.X.tab2.zip, unzip and grab the human file
 
+2. Reformat BioGRID database so that it can be used in Cytoscape to display if an interaction edge is known
+```
+$HOME/cellmap-scripts/data-sets/biogrid_forCytoscape.pl -b BIOGRID-ORGANISM-Homo_sapiens-X.X.X.tab2.txt
+```
+
+3. Output
+* console
+
 ### IntAct
 
 1. Download IntAct dataset
@@ -89,3 +97,16 @@ Requires
 * Select file go-terms.txt (The webtool can only take 2000 terms, so may need to split the list up into pieces to use)
 
 3. Download table and save as za-information-content.txt.
+
+### Protein complexes
+
+1. Download protein complex file
+* http://proteincomplexes.org/download
+* Click `Protein Complex Map (genenames)`. Will produce file called genename_clusters.txt.
+
+### Corum
+
+1. Download complex list
+* http://mips.helmholtz-muenchen.de/corum/#download
+* Download complete complexes in .txt format. Will produce file called allComplexes.txt.
+

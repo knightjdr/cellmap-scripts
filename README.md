@@ -4,7 +4,7 @@ Scripts used for analyzing data at the cell-map.org. In this guide, all scripts 
 
 ## Script order
 
-For third-party datasets, see `data-sets` README for instructions.
+For third-party datasets, see `data-sets` README for instructions on getting and/or reformatting files.
 
 1. saint-processing
 * merge files
@@ -20,3 +20,13 @@ For third-party datasets, see `data-sets` README for instructions.
 3. interaction-assessment
 * known interaction recovery per FDR
 * known and new interactions recovered per bait
+
+4. prey-prey
+* prey-prey correlation
+* generate list of preys in network
+* generate Cytoscape files
+* prey-prey interaction recovery
+* prey-prey complex recovery
+
+5. cytoscape
+
