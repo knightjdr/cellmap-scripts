@@ -26,7 +26,7 @@ $HOME/cellmap-scripts/interaction-assessment/complex-validation.pl -b interactio
 
 ### Bait assessment
 
-Generate a bait summary using an FDR of 0.01 when comparing against BioGrid (or Intact or merged).
+Generate a bait interaction summary of known and new interactors using an FDR of 0.01 when comparing against BioGrid, Intact or merged.
 
 Requires
 * SAINT file
