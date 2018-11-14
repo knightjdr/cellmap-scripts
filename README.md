@@ -29,4 +29,5 @@ For third-party datasets, see `data-sets` README for instructions on getting and
 * prey-prey complex recovery
 
 5. cytoscape
-
+* format correlation file for Cytoscape
+* generate network for SAFE
