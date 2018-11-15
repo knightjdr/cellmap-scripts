@@ -31,3 +31,9 @@ For third-party datasets, see `data-sets` README for instructions on getting and
 5. cytoscape
 * format correlation file for Cytoscape
 * generate network for SAFE
+
+6. safe
+* create annotation matrix
+* run SAFE with a collection of networks, annotation matrices and parameters
+* assess results
+* generate Cytoscape network coloured by SAFE domain

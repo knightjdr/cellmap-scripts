@@ -141,7 +141,7 @@ Generate colors to use for SAFE nodes on cytoscape network for SAFE and color ne
 
 Requires:
 * node_properties_annotation-highest.txt (without the first four header lines)
-* safe_summary.txt
+* domain-summary.txt
 
 1. Run script to generate node colours
 ```
