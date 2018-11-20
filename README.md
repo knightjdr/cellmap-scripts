@@ -37,3 +37,8 @@ For third-party datasets, see `data-sets` README for instructions on getting and
 * run SAFE with a collection of networks, annotation matrices and parameters
 * assess results
 * generate Cytoscape network coloured by SAFE domain
+
+7. nmf
+* create matrix for NMF
+* run NMF in batch
+* summarize NMF ranks by GO terms
