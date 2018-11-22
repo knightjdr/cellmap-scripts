@@ -7,7 +7,7 @@ const rankStart = process.argv[3];
 const rankTotal = process.argv[4];
 
 // parameters
-const resultsFolder = 'results';
+const resultsFolder = 'Results';
 
 // create Results folder if it doesn't exists
 if (!fs.existsSync(resultsFolder)) {
@@ -20,7 +20,7 @@ const ranks = [...Array(rankTotal).keys()].map(x => x + rankStart);
 // NMF
 const nmf = function() {
 	ranks.forEach((rank) => {
-		const outFolder = `Results/${rank}rank`;
+		const outFolder = `${resultsFolder}/${rank}rank`;
 		fs.mkdirSync(outFolder);
 		const nmfProcess = spawn('python3', [
 			`${__dirname}/nmf/nmf_bcv/nmf.py`,

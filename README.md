@@ -42,3 +42,8 @@ For third-party datasets, see `data-sets` README for instructions on getting and
 * create matrix for NMF
 * run NMF in batch
 * summarize NMF ranks by GO terms
+* assess NMF ranks
+* assess prey moonlighting
+* generate heat map for viewing NMF matrices
+* generate Cytoscape network based on correlation
+* create t-SNE map from basis matrix

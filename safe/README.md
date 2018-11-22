@@ -127,7 +127,7 @@ $HOME/cellmap-scripts/safe/domainProfile.R node_properties_annotation-highest.tx
 
 #### Assign representative term for domains
 
-Use the summary.xlsx from the previous step and the attribute_properties_annotation-highest.txt file to determine the representative term to use for each SAFE domain. See file in scripts folder called sample-safe-terms.txt on how to record this information into a file.
+Use the domain-summary.xlsx from the previous step and the attribute_properties_annotation-highest.txt file to determine the representative term to use for each SAFE domain. See file in scripts folder called sample-safe-terms.txt on how to record this information into a file.
 
 1. Select a representative term. If multiple terms, separate them with comma.
 
