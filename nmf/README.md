@@ -134,7 +134,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/nmf/nmf-moonlighting.pl -b basis.csv -poola 3,15 -poolb 13 -t 30
+$HOME/cellmap-scripts/nmf/nmf-moonlighting-subset.pl -b basis.csv -poola 3,15 -poolb 13 -t 30
 ```
 
 2. Output
@@ -142,7 +142,7 @@ $HOME/cellmap-scripts/nmf/nmf-moonlighting.pl -b basis.csv -poola 3,15 -poolb 13
 
 3. Run clustering script on this matrix
 ```
-$HOME/cellmap-scripts/nmf/nmf-moonlighting-clustering.R -b basis-moonlighting.csv
+$HOME/cellmap-scripts/nmf/nmf-moonlighting-clustering.R basis-moonlighting.csv
 ```
 
 4. Output
