@@ -18,7 +18,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/interaction-assessment/complex-validation.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
+"$CMSCRIPTS"/interaction-assessment/complex-validation.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
 ```
 
 2.	Output:
@@ -42,7 +42,7 @@ Requires
 
 1. Run script
 ```
-$HOME/cellmap-scripts/interaction-assessment/bait-summary.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
+"$CMSCRIPTS"/interaction-assessment/bait-summary.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
 ```
 
 2.	Output:
@@ -67,7 +67,7 @@ $HOME/cellmap-scripts/interaction-assessment/bait-summary.pl -b interactions.txt
 
 1. Run script
 ```
-$HOME/cellmap-scripts/interaction-assessment/bait-summary-topX.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
+"$CMSCRIPTS"/interaction-assessment/bait-summary-topX.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
 ```
 
 2.	Output:

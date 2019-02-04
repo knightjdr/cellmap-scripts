@@ -11,7 +11,7 @@ Requires
 
 1. Run script
 ```
-$HOME/cellmap-scripts/cytoscape/format_preycorr.pl -c preys_cytoscape.txt
+"$CMSCRIPTS"/cytoscape/format_preycorr.pl -c preys_cytoscape.txt
 ```
 
 2. Output

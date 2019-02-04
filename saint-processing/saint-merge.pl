@@ -2,9 +2,9 @@
 
 # 31/5/2018
 # This script will merge a group of SAINT files. It takes a list of bait names
-# to keep and will only keep those from the SAINT files. It must be run in a folder
+# and will only keep those from the SAINT files. It must be run in a folder
 # with the SAINT files and it will run on any files with the .txt extension. It will
-# also only keep the first 15 columns from the files.
+# also only keep the first 22 columns from the files.
 
 use strict;
 use warnings;

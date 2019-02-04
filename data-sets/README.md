@@ -9,7 +9,7 @@
 
 2. Reformat BioGRID database so that it can be used in Cytoscape to display if an interaction edge is known
 ```
-$HOME/cellmap-scripts/data-sets/biogrid_forCytoscape.pl -b BIOGRID-ORGANISM-Homo_sapiens-X.X.X.tab2.txt
+"$CMSCRIPTS"/data-sets/biogrid_forCytoscape.pl -b BIOGRID-ORGANISM-Homo_sapiens-X.X.X.tab2.txt
 ```
 
 3. Output
@@ -22,7 +22,7 @@ $HOME/cellmap-scripts/data-sets/biogrid_forCytoscape.pl -b BIOGRID-ORGANISM-Homo
 
 2. Parse for human genes
 ```
-$HOME/cellmap-scripts/data-sets/intact_parse.pl -i intact.txt
+"$CMSCRIPTS"/data-sets/intact_parse.pl -i intact.txt
 ```
 
 3. Output:
@@ -30,7 +30,7 @@ $HOME/cellmap-scripts/data-sets/intact_parse.pl -i intact.txt
 
 4. Merge BioGRID and IntAct datasets
 ```
-$HOME/cellmap-scripts/data-sets/merge-biogrid-intact.pl -b BIOGRID-ORGANISM-Homo_sapiens-X.X.X.tab2.txt -i parsed-intact.txt
+"$CMSCRIPTS"/data-sets/merge-biogrid-intact.pl -b BIOGRID-ORGANISM-Homo_sapiens-X.X.X.tab2.txt -i parsed-intact.txt
 ```
 
 5. Output:
@@ -52,7 +52,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/data-sets/go-children.pl -h go-basic.obo -n cc
+"$CMSCRIPTS"/data-sets/go-children.pl -h go-basic.obo -n cc
 ```
 
 2. Output
@@ -67,7 +67,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/data-sets/go-term-mapping.pl -h go-basic.obo -n C
+"$CMSCRIPTS"/data-sets/go-term-mapping.pl -h go-basic.obo -n C
 ```
 
 2. Output

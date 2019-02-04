@@ -18,7 +18,7 @@ Requires:
 1. Run script
 
 ```
-$HOME/cellmap-scripts/safe/go-table.pl -f go-basic.obo -g goa_human_nohead.gaf -l gene-list.txt -n cc
+"$CMSCRIPTS"/safe/go-table.pl -f go-basic.obo -g goa_human_nohead.gaf -l gene-list.txt -n cc
 ```
 
 2. Output
@@ -36,30 +36,30 @@ Requires
 
 1. Open Matlab and specify path SAFE folder. Note, $HOME must be replaced by the path name.
 ```
-addpath(genpath('$HOME/cellmap-scripts/safe/'));
+addpath(genpath('"$CMSCRIPTS"/safe/'));
 ```
 
 2. Create and move into a folder for running the analysis
 ```
-mkdir $HOME/cellmap-scripts/safe/analysis
-cd $HOME/cellmap-scripts/safe/analysis
+mkdir "$CMSCRIPTS"/safe/analysis
+cd "$CMSCRIPTS"/safe/analysis
 ```
 
 3.	Copy safe.ini file from script folder to analysis folder
 ```
-cp $HOME/cellmap-scripts/safe/safe.ini .
+cp "$CMSCRIPTS"/safe/safe.ini .
 ```
 
 4. Open `safe-iterator.m`
 
 5. In script, set name of analysisFolder to full path of your folder
 ```
-analysisFolder = '$HOME/cellmap-scripts/safe/analysis';
+analysisFolder = '"$CMSCRIPTS"/safe/analysis';
 ```
 
-6. Place all annotation matrices in `$HOME/cellmap-scripts/safe/analysis/annotationMatrices`. Files should be named cc_something.cys, and Matlab will grab the part before the underscore for naming the results folder.
+6. Place all annotation matrices in `"$CMSCRIPTS"/safe/analysis/annotationMatrices`. Files should be named cc_something.cys, and Matlab will grab the part before the underscore for naming the results folder.
 
-7. Place all networks to test in `$HOME/cellmap-scripts/safe/analysis/networkFolder`. Networks should be named 0.7_something.cys and Matlab will grab the part before the underscore for naming the results folder.
+7. Place all networks to test in `"$CMSCRIPTS"/safe/analysis/networkFolder`. Networks should be named 0.7_something.cys and Matlab will grab the part before the underscore for naming the results folder.
 
 8.	Specify an array of all radii to test
 ```
@@ -73,11 +73,11 @@ radii = [4 5 6 7 8 9 10]
 
 Grab all attribute and node files, rename them to match their parent folders, delete the first four lines from each and move them into a folder called “safe_assessment” and a subfolder called “attributes” or “nodes” depending on their type.
 
-1. Move to parent folder containing the “Results” folder generated in the previous step. Would be `$HOME/cellmap-scripts/safe/analysis/` in this example.
+1. Move to parent folder containing the “Results” folder generated in the previous step. Would be `"$CMSCRIPTS"/safe/analysis/` in this example.
 
 2. Run script
 ```
-$HOME/cellmap-scripts/safe/safe-move-files.pl
+"$CMSCRIPTS"/safe/safe-move-files.pl
 ```
 
 ### Assess SAFE terms
@@ -90,11 +90,11 @@ Requires
 * Map of GO IDs to terms
 * GO namespace, default C, one of C, F or P
 
-1. Move into folder `$HOME/cellmap-scripts/safe/analysis/safe_assessment`
+1. Move into folder `"$CMSCRIPTS"/safe/analysis/safe_assessment`
 
 2. Run script
 ```
-$HOME/cellmap-scripts/safe/safe-assessor.pl -g go-children.txt -l goa_human_nohead.gaf -m go-map.txt -n C
+"$CMSCRIPTS"/safe/safe-assessor.pl -g go-children.txt -l goa_human_nohead.gaf -m go-map.txt -n C
 ```
 
 3. Output
@@ -114,12 +114,12 @@ Requries
 
 1. Move into results folder for parameter set, e.g for a network with a correlation cutoff of 0.6, annotated with CC terms and a radius of 3.5
 ```
-mv $HOME/cellmap-scripts/safe/analysis/Results/0.6cc_ccns_3.5r/
+mv "$CMSCRIPTS"/safe/analysis/Results/0.6cc_ccns_3.5r/
 ```
 
 2. Run script
 ```
-$HOME/cellmap-scripts/safe/domainProfile.R node_properties_annotation-highest.txt GO:CC
+"$CMSCRIPTS"/safe/domainProfile.R node_properties_annotation-highest.txt GO:CC
 ```
 
 2. Output
@@ -145,7 +145,7 @@ Requires:
 
 1. Run script to generate node colours
 ```
-$HOME/cellmap-scripts/safe/safe_color.pl
+"$CMSCRIPTS"/safe/safe_color.pl
 ```
 
 2. Output

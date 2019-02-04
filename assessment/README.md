@@ -19,7 +19,7 @@ The bait gene map should be formatted like so:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/assessment/saint-summary.pl -m bait-gene.txt -s saint.txt
+"$CMSCRIPTS"/assessment/saint-summary.pl -m bait-gene.txt -s saint.txt
 ```
 
 ### Reproducibility
@@ -32,7 +32,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/assessment/repCheck.R saint.txt 0.01
+"$CMSCRIPTS"/assessment/repCheck.R saint.txt 0.01
 ```
 
 2. Output:
@@ -54,7 +54,7 @@ Requires:
 
 1. Run script. If the third argument is a number > 0, only that number of preys for each bait will be used for the enrichment.
 ```
-$HOME/cellmap-scripts/assessment/bait-enrichment.R 0.01
+"$CMSCRIPTS"/assessment/bait-enrichment.R 0.01
 ```
 
 2. Output:
@@ -79,7 +79,7 @@ Requires
 
 1. Run script
 ```
-$HOME/cellmap-scripts/assessment/bait-details.pl -i za-information-content.txt -g goa_human_nohead.gaf -m bait-gene.txt -n C -u uniprot_sprot.dat
+"$CMSCRIPTS"/assessment/bait-details.pl -i za-information-content.txt -g goa_human_nohead.gaf -m bait-gene.txt -n C -u uniprot_sprot.dat
 ```
 
 2. Output
@@ -101,7 +101,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/assessment/bait-asprey.R bait-gene.txt saint.txt
+"$CMSCRIPTS"/assessment/bait-asprey.R bait-gene.txt saint.txt
 ```
 
 2. Output

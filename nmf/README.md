@@ -26,7 +26,7 @@ Requires:
 
 1. Run script with caffeinate
 ```
-caffeinate node $HOME/cellmap-scripts/nmf/nmf.js sc-matrix.csv
+caffeinate node "$CMSCRIPTS"/nmf/nmf.js sc-matrix.csv
 ```
 
 2. Output to `Results` folder with folder for each rank containing:
@@ -51,7 +51,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/nmf/rankProfile.R basis.csv scores.csv GO:CC
+"$CMSCRIPTS"/nmf/rankProfile.R basis.csv scores.csv GO:CC
 ```
 
 2. Output
@@ -66,12 +66,12 @@ Grab all attribute (terms_perrank.txt) and node files (gene-localizations.txt), 
 
 1. Move into folder where NMF was run
 ```
-cd $HOME/cellmap-scripts/nmf/analysis
+cd "$CMSCRIPTS"/nmf/analysis
 ```
 
 2. Run script
 ```
-$HOME/cellmap-scripts/nmf/nmf-move-files.pl
+"$CMSCRIPTS"/nmf/nmf-move-files.pl
 ```
 
 ### Assess NMF terms
@@ -86,12 +86,12 @@ Requires
 
 1. Move into assessment folder
 ```
-cd $HOME/cellmap-scripts/nmf/analysis/nmf_assessment
+cd "$CMSCRIPTS"/nmf/analysis/nmf_assessment
 ```
 
 2. Run script
 ```
-$HOME/cellmap-scripts/nmf/nmf-assessor.pl -g go-children.txt -l goa_human_nohead.gaf -m go-map.txt -n C
+"$CMSCRIPTS"/nmf/nmf-assessor.pl -g go-children.txt -l goa_human_nohead.gaf -m go-map.txt -n C
 ```
 
 3. Output
@@ -116,7 +116,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/nmf/nmf-moonlighting.pl -b basis.csv
+"$CMSCRIPTS"/nmf/nmf-moonlighting.pl -b basis.csv
 ```
 
 2. Output
@@ -134,7 +134,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/nmf/nmf-moonlighting-subset.pl -b basis.csv -poola 3,15 -poolb 13 -t 30
+"$CMSCRIPTS"/nmf/nmf-moonlighting-subset.pl -b basis.csv -poola 3,15 -poolb 13 -t 30
 ```
 
 2. Output
@@ -142,7 +142,7 @@ $HOME/cellmap-scripts/nmf/nmf-moonlighting-subset.pl -b basis.csv -poola 3,15 -p
 
 3. Run clustering script on this matrix
 ```
-$HOME/cellmap-scripts/nmf/nmf-moonlighting-clustering.R basis-moonlighting.csv
+"$CMSCRIPTS"/nmf/nmf-moonlighting-clustering.R basis-moonlighting.csv
 ```
 
 4. Output
@@ -167,7 +167,7 @@ Requires:
 
 1. Run clustering script
 ```
-$HOME/cellmap-scripts/nmf/nmf-clustering.R basis.csv scores.csv 0.7
+"$CMSCRIPTS"/nmf/nmf-clustering.R basis.csv scores.csv 0.7
 ```
 
 2. Output
@@ -177,7 +177,7 @@ $HOME/cellmap-scripts/nmf/nmf-clustering.R basis.csv scores.csv 0.7
 
 3. Run script to generate files for prohits-viz
 ```
-$HOME/cellmap-scripts/nmf/nmf-heatmap.pl -b clustered_basis.csv -s clustered_scores.csv
+"$CMSCRIPTS"/nmf/nmf-heatmap.pl -b clustered_basis.csv -s clustered_scores.csv
 ```
 
 4. Output
@@ -190,7 +190,7 @@ $HOME/cellmap-scripts/nmf/nmf-heatmap.pl -b clustered_basis.csv -s clustered_sco
 
 Generate a coordinate file for Cytoscape from the NMF data using t-SNE. Either the basis matrix can be used directly (nmf-wrapper.m) or the Euclidean distance matrix can be calculated from the basis matrix and that used for t-SNE (nmf-wrapper_D.m).
 
-1. Open Matlab and add t-SNE script folder to path: addpath(genpath('$HOME/cellmap-scripts/nmf/tsne/'))
+1. Open Matlab and add t-SNE script folder to path: addpath(genpath('"$CMSCRIPTS"/nmf/tsne/'))
 
 2. Open script `nmf/tsne-wrapper.m`
 
@@ -210,7 +210,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/nmf/tsne-to-cytoscape.pl -c rank-color.tsv -d rank-summary.txt -t tsne_nmf.txt
+"$CMSCRIPTS"/nmf/tsne-to-cytoscape.pl -c rank-color.tsv -d rank-summary.txt -t tsne_nmf.txt
 ```
 
 2. Output
@@ -233,7 +233,7 @@ Requires:
 
 1. Run script
 ```
-$HOME/cellmap-scripts/nmf/trim-cyjs.pl -c network.cyjs
+"$CMSCRIPTS"/nmf/trim-cyjs.pl -c network.cyjs
 ```
 
 2. Output

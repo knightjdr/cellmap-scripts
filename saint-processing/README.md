@@ -17,7 +17,7 @@ Requires:
 
 3. Run saint_merge.pl in the directory with the SAINT files and specifiy path to list of baits. In this example, the assumption is the bait list is one directory above the folder with the SAINT files.
 ```
-$HOME/cellmap-scripts/saint-processing/saint-merge.pl -b ../baits.txt
+"$CMSCRIPTS"/saint-processing/saint-merge.pl -b ../baits.txt
 ```
 
 4. Outputs:
@@ -33,7 +33,7 @@ Requires:
 * FDR cutoff, default 0.01
 * minimum prey threshold, default 5
 
-Contaminant list is in `data-files/contaminants.txt`. It was generated from:
+Contaminant list is in this repo `data-files/contaminants.txt`. It was generated from:
 * ftp://ftp.thegpm.org/fasta/cRAP/crap.fasta 
 * http://www.coxdocs.org/doku.php?id=maxquant:common:download_and_installation and grabbing contaminants.fasta
 * supplemented with BirA tag, streptavidin, mCherry, GFP, bovine, casein and adenoviral proteins
@@ -42,7 +42,7 @@ Script will filter contaminants, decoys and any baits that do not have at least 
 
 1. Run script using contaminants.txt and SAINT file.
 ```
-$HOME/cellmap-scripts/saint-processing/saint-filter.pl -c contaminants.txt -s saint.txt
+"$CMSCRIPTS"/saint-processing/saint-filter.pl -c contaminants.txt -s saint.txt
 ```
 
 2. Output:
