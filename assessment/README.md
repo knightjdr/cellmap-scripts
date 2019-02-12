@@ -39,13 +39,9 @@ Requires:
 * regression.txt (table with r-squared and adjusted r-squared)
 * rsquare_plots.pdf (replicate 1 v replicate 2 plots for all baits)
 
-
-2. Output:
-* summary.txt
-
 ### GO term recovery
 
-Takes the significant preys for each bait and gets the enriched terms. Enrichment for each bait will be relative to other preys in the dataset.
+Takes the significant preys for each bait and gets the enriched terms. All preys in the dataset are used as background.
 
 Requires:
 * SAINT file
@@ -54,15 +50,32 @@ Requires:
 
 1. Run script. If the third argument is a number > 0, only that number of preys for each bait will be used for the enrichment.
 ```
-"$CMSCRIPTS"/assessment/bait-enrichment.R 0.01
+"$CMSCRIPTS"/assessment/bait-enrichment.R saint.txt 0.01
 ```
 
 2. Output:
 * bait-enrichment.xlsx or bait-enrichment_topX.xlsx will have five tabs, one for all GO terms, and separate tabs for BP, CC, MF and Corum
 
+### Bait overlap
+
+Calculate the overlap in preys between every pair of baits. This is done as the Jaccard distance.
+
+Requires
+* SAINT file
+* FDR, default 0.01
+
+1. Run script.
+```
+"$CMSCRIPTS"/assessment/bait-overlap.R saint.txt 0.01
+```
+
+2. Output
+* bait-overlap.pdf is a heat map of the distances, clustered using the Euclidean distance and complete linkage method
+* bait-overlap.txt contains the Jaccard index for each bait-bait pair
+
 ### Expected compartments
 
-Create a summary table for each bait, including official symbol, names and expected compartment basedon GO. It will grab the CC compartment with the highest information content, or a list if several equivalent.
+Create a summary table for each bait, including official symbol, names and expected compartment based on GO. It will grab the CC compartment with the highest information content, or a list if several equivalent.
 
 Requires
 * IC content table (za-information-content.txt)

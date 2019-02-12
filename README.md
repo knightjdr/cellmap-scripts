@@ -6,7 +6,7 @@ Scripts used for analyzing data at the cell-map.org. All perl scripts can be run
 
 For third-party datasets, see `data-sets` README for instructions on getting and/or reformatting files.
 
-Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script ass `"$CMSCRIPTS"/folder/script.pl`
+Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"$CMSCRIPTS"/folder/script.pl`
 
 1. saint-processing
 * merge files

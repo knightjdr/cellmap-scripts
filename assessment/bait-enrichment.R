@@ -3,14 +3,12 @@
 # needed for xlsx memory
 options(java.parameters = "-Xmx16000m")
 
-#libraries
+# libraries
 library(gProfileR)
 library(openxlsx)
 
 # parameters
-fdr = 0.01
 srcFilter = c('GO:BP', 'GO:CC', 'GO:MF', 'CORUM')
-topPreyNumber = 0
 
 args = commandArgs(trailingOnly = TRUE)
 saint = read.delim(args[1], sep="\t", header=T, as.is=T)
@@ -18,42 +16,50 @@ saint = read.delim(args[1], sep="\t", header=T, as.is=T)
 # set parameters
 if (!is.null(args[2])) {
   fdr = as.numeric(args[2])
-} 
+} else {
+  fdr = 0.01
+}
 if (!is.null(args[3])) {
   topPreyNumber = as.numeric(args[3])
+} else {
+  topPreyNumber = 0
 }
+
+# filter dataset
+saint = saint[saint$BFDR <= fdr,]
 
 # control subtraction
 temp = lapply(lapply(strsplit(saint$ctrlCounts, "\\|"), as.numeric), mean)
 saint$AvgSpec <- round(saint$AvgSpec - unlist(temp), 2)
 
 # get prey background
-preyBackground = unique(saint$PreyGene[saint$BFDR <= fdr])
-
-# prey length normalization.
-normValue = median(saint$PreySequenceLength)
-saint$AvgSpec <- round(saint$AvgSpec * (normValue / saint$PreySequenceLength), 2)
+preyBackground = unique(saint$PreyGene)
 
 # baits to profile
 baits <- unique(saint$Bait)
 
 for(i in 1:length(baits)) {
   print(paste(i, baits[i], sep=" "))
+
   # get rows of SAINT file for current bait
-  baitSaint = saint[
-    saint$Bait == baits[i] &
-      saint$BFDR <= fdr,
-    ]
+  baitSaint = saint[saint$Bait == baits[i],]
+
+  # prey length normalization.
+  normValue = median(baitSaint$PreySequenceLength)
+  baitSaint$AvgSpec <- round(baitSaint$AvgSpec * (normValue / baitSaint$PreySequenceLength), 2)
+  
   # check if bait has less than topPreyNumber preys
   currPreyNumber = nrow(baitSaint)
-  #for top maxgenes
   if(
     topPreyNumber > 0 &
     currPreyNumber > topPreyNumber
   ) {
     currPreyNumber = topPreyNumber
   }
-  currPreys = baitSaint$PreyGene[order(baitSaint$AvgSpec / baitSaint$PreySequenceLength, decreasing=TRUE)][1:currPreyNumber]
+  
+  # get top preys based on spectral count
+  currPreys = baitSaint$PreyGene[order(baitSaint$AvgSpec, decreasing=TRUE)][1:currPreyNumber]
+
   currProfile = gprofiler(
     currPreys,
     organism = "hsapiens",
@@ -76,6 +82,7 @@ for(i in 1:length(baits)) {
     include_graph = F,
     src_filter = srcFilter
   )
+
   if (nrow(currProfile) > 0) {
     # drop some uneeded columns
     currProfile <- currProfile[ , !(names(currProfile) %in% c('query.number', 'significant'))]
