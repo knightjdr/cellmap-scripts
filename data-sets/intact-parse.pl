@@ -12,6 +12,7 @@ use Text::CSV_XS;
 
 # paramaters
 my $fileType = 'b';
+my $organism = 9606;
 my $requiredEvidence = 1;
 
 # command line parameters
@@ -20,7 +21,8 @@ my $ifile = ''; # IntAct file
 if($#ARGV==0){
 	print "Takes an IntAct database file and parses it for human genes\n\n";
 	print "\nusage:\n $0\n";
-	print "-i [IntAct file]\n\n";
+	print "-i [IntAct file]\n";
+  print "-o [organism, default: 9606]\n\n";
 	die "\n";
 }
 else{
@@ -45,7 +47,7 @@ my $tsv = Text::CSV_XS->new({
 	allow_loose_escapes => 1,
 });
 open my $fh, '<', $ifile or die "Could not open $ifile: $!";
-open my $parsefh, '>', 'parsed-intact.txt';
+open my $parsefh, '>', 'human-intact.txt';
 print $parsefh "source\ttarget\tapproach\n";
 $tsv->getline($fh); #discard header
 while(my $row = $tsv->getline($fh)) {
@@ -56,8 +58,8 @@ while(my $row = $tsv->getline($fh)) {
 	if ($sourceSpecies &&
 		$targetSpecies &&
 		(
-			($sourceSpecies == 9606 && $targetSpecies > 0) ||
-			($targetSpecies == 9606 && $sourceSpecies > 0)
+			($sourceSpecies == $organism && $targetSpecies > 0) ||
+			($targetSpecies == $organism && $sourceSpecies > 0)
 		)
 	) {
 		my $sourceCell = @{$row}[4];

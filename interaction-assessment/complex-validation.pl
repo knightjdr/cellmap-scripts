@@ -93,7 +93,7 @@ if ($ffile) {
 }
 my %baitFilterHash = map { $_ => 1 } @baitFilter;
 
-# parse BioGRID file
+# parse Interactions file
 print STDERR "Retrieving interactors\n";
 my %biogrid;
 $tsv = Text::CSV_XS->new({
@@ -155,7 +155,7 @@ if ($fileType eq 'i') {
 }
 close($fh);
 
-# remove all BioGRID pairs that do not have at least $requiredEvidence pieces of evidence
+# remove all Interactions pairs that do not have at least $requiredEvidence pieces of evidence
 print STDERR "Removing evidence-type pairs\n";
 my @biogridPairs;
 while (my ($key, $value) = each %biogrid) {

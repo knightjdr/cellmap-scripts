@@ -17,6 +17,10 @@
 
 ### IntAct
 
+Requires:
+* IntAct file
+* organism, default 9606
+
 1. Download IntAct dataset
 * http://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab/intact.zip
 
@@ -26,11 +30,11 @@
 ```
 
 3. Output:
-* parsed-intact.txt
+* human-intact.txt
 
 4. Merge BioGRID and IntAct datasets
 ```
-"$CMSCRIPTS"/data-sets/merge-biogrid-intact.pl -b BIOGRID-ORGANISM-Homo_sapiens-X.X.X.tab2.txt -i parsed-intact.txt
+"$CMSCRIPTS"/data-sets/merge-biogrid-intact.pl -b BIOGRID-ORGANISM-Homo_sapiens-X.X.X.tab2.txt -i human-intact.txt
 ```
 
 5. Output:

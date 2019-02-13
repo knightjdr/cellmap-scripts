@@ -16,6 +16,7 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * summary statistics: no. preys, unique preys, etc.
 * r-squared between replicates
 * bait GO enrichment
+* prey overlap between baits using the Jaccard index
 * bait localization summary (from known information)
 * baits recovered as preys
 

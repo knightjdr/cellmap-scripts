@@ -54,8 +54,8 @@ my $biogridTsv = Text::CSV_XS->new({
 $biogridTsv->getline($biogridFH); #discard header
 while(my $row = $biogridTsv->getline($biogridFH)) {
   my $approach = @{$row}[11];
-  my $source = lc @{$row}[7];
-  my $target = lc @{$row}[8];
+  my $source = @{$row}[7];
+  my $target = @{$row}[8];
   my @pair = ($source, $target);
   @pair = sort @pair;
   push @{$interactions{$pair[0]}{$pair[1]}}, $approach;
@@ -76,8 +76,8 @@ my $intactTsv = Text::CSV_XS->new({
 $intactTsv->getline($intactFH); #discard header
 while(my $row = $intactTsv->getline($intactFH)) {
   my $approach = @{$row}[2];
-  my $source = lc @{$row}[0];
-  my $target = lc @{$row}[1];
+  my $source = @{$row}[0];
+  my $target = @{$row}[1];
   my @pair = ($source, $target);
   @pair = sort @pair;
   push @{$interactions{$pair[0]}{$pair[1]}}, $approach;

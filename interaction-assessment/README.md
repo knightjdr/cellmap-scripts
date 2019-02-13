@@ -7,7 +7,7 @@ This script will take all interaction pairs (BioGRID, Intact or merged). For eac
 Requires:
 * SAINT file
 * interaction file from BioGRID, Intact or merged
-* optional: a list of all baits to include in analysis (default will assume all baits)
+* optional: a list of baits to include in analysis (default will assume all baits)
 * bait to gene name map
 
 | bait  | gene  |
@@ -67,7 +67,7 @@ Requires
 
 1. Run script
 ```
-"$CMSCRIPTS"/interaction-assessment/bait-summary-topX.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
+"$CMSCRIPTS"/interaction-assessment/bait-summary-spec.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
 ```
 
 2.	Output:
