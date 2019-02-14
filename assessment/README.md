@@ -50,7 +50,7 @@ Requires:
 
 1. Run script. If the third argument is a number > 0, only that number of preys for each bait will be used for the enrichment.
 ```
-"$CMSCRIPTS"/assessment/bait-enrichment.R saint.txt 0.01
+"$CMSCRIPTS"/assessment/bait-enrichment.R saint.txt 0.01 0
 ```
 
 2. Output:
@@ -63,14 +63,15 @@ Calculate the overlap in preys between every pair of baits. This is done as the 
 Requires
 * SAINT file
 * FDR, default 0.01
+* Number of top preys to use, default all
 
-1. Run script.
+1. Run script. If the third argument is a number > 0, only that number of preys for each bait will be used for the enrichment.
 ```
-"$CMSCRIPTS"/assessment/bait-overlap.R saint.txt 0.01
+"$CMSCRIPTS"/assessment/bait-overlap.R saint.txt 0.01 0
 ```
 
 2. Output
-* bait-overlap.pdf is a heat map of the distances, clustered using the Euclidean distance and complete linkage method
+* bait-overlap.pdf or bait-overlap_topX.pdf is a heat map of the distances, clustered using the Euclidean distance and complete linkage method
 * bait-overlap.txt contains the Jaccard index for each bait-bait pair
 
 ### Expected compartments
