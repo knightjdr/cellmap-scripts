@@ -11,7 +11,6 @@ use List::MoreUtils qw(uniq);
 use Text::CSV_XS;
 
 # paramaters
-my $fileType = 'b';
 my $requiredEvidence = 1;
 
 # command line parameters
@@ -30,7 +29,6 @@ if($#ARGV==0){
 	print "-f [List of genes to include]\n";
 	print "-m [SAINT bait-gene map]\n";
 	print "-s [SAINT file]\n";
-	print "-t [file type: b = BioGRID (default), i = IntAct, m = merged\n";
 	die "\n";
 }
 else{
@@ -48,9 +46,6 @@ else{
 		} elsif ($ARGV[$i] eq '-s'){
 			$i++;
 			$sfile = $ARGV[$i];
-		} elsif ($ARGV[$i] eq '-t'){
-			$i++;
-			$fileType = $ARGV[$i];
 		} else {
 			die "\nIncorrect program usage\n\n";
 		}
@@ -106,52 +101,15 @@ $tsv = Text::CSV_XS->new({
 });
 open $fh, '<', $bfile or die "Could not open $bfile: $!";
 $tsv->getline($fh); #discard header
-if ($fileType eq 'i') {
-	while(my $row = $tsv->getline($fh)) {
-		my $source = lc @{$row}[0];
-		my $target = lc @{$row}[1];
-		my @pair = ($source, $target);
-		@pair = sort @pair;
-		my $joinedPair = join '_', @pair;
-		if (exists $baitFilterHash{$source} || exists $baitFilterHash{$target}) {
-			my $approach = @{$row}[2];
-			push @{$biogrid{$joinedPair}}, $approach;
-		}
-	}
-} elsif ($fileType eq 'm') {
-	while(my $row = $tsv->getline($fh)) {
-		my $source = lc @{$row}[0];
-		my $target = lc @{$row}[1];
-		my @pair = ($source, $target);
-		@pair = sort @pair;
-		my $joinedPair = join '_', @pair;
-		if (exists $baitFilterHash{$source} || exists $baitFilterHash{$target}) {
-			@{$biogrid{$joinedPair}} = split /;/, @{$row}[2];
-		}
-	}
-} else {
-	while(my $row = $tsv->getline($fh)) {
-		my $approach = @{$row}[11];
-		my $source = lc @{$row}[7];
-		my $target = lc @{$row}[8];
-		my @pair = ($source, $target);
-		@pair = sort @pair;
-		my $joinedPair = join '_', @pair;
-
-		# if the evidence types need not be unique, uncomment the next line
-		if (exists $baitFilterHash{$source} || exists $baitFilterHash{$target}) {
-			push @{$biogrid{$joinedPair}}, $approach;
-		}
-
-		# if the evidence types must be unique, uncomment next if/else block
-		#if (exists $biogrid{$joinedPair}) {
-		#	if ( !(grep /^$approach$/, @{$biogrid{$joinedPair}}) ) {
-		#		push @{$biogrid{$joinedPair}}, $approach;
-		#	}
-		#} else {
-		#	push @{$biogrid{$joinedPair}}, $approach;
-		#}
-	}
+while(my $row = $tsv->getline($fh)) {
+  my $source = lc @{$row}[0];
+  my $target = lc @{$row}[1];
+  my @pair = ($source, $target);
+  @pair = sort @pair;
+  my $joinedPair = join '_', @pair;
+  if (exists $baitFilterHash{$source} || exists $baitFilterHash{$target}) {
+    @{$biogrid{$joinedPair}} = split /;/, @{$row}[2];
+  }
 }
 close($fh);
 

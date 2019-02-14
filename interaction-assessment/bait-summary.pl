@@ -15,7 +15,6 @@ use Interactions::Saint qw(readSaintInteractions);
 use Interactions::Summarize qw(summarize);
 
 #parameters
-my $fileType = 'b';
 my $score = 0.01; # FDR
 
 # command line parameters
@@ -24,7 +23,7 @@ my $mfile = '';	# file with a map of Bait names to gene names "bait.dat" from Pr
 my $sfile = '';	# SAINT file
 
 if ($#ARGV==0){
-  print "\nTakes a SAINT file and a BioGRID/IntAct file, and for each bait it calculates the number of\n";
+  print "\nTakes a SAINT file and an interaction file, and for each bait it calculates the number of\n";
   print "newly discovered preys, number of discovered previsouly known preys, and the number of\n";
   print "previously known preys that were missed. Also requires a file for mapping bait names to\n";
   print "gene names. \n\n";
@@ -33,7 +32,6 @@ if ($#ARGV==0){
   print "-f [FDR cutoff]\n";
 	print "-m [SAINT bait-gene map]\n";
 	print "-s [SAINT file]\n";
-	print "-t [file type: b = BioGRID (default), i = IntAct, m = merged\n";
 	die "\n";
 } else{
 	my $i = 0;
@@ -50,9 +48,6 @@ if ($#ARGV==0){
 		} elsif ($ARGV[$i] eq '-s'){
 			$i++;
 			$sfile = $ARGV[$i];
-		} elsif ($ARGV[$i] eq '-t'){
-			$i++;
-			$fileType = $ARGV[$i];
 		} else {
 			die "\nIncorrect program usage\n\n";
 		}
@@ -70,7 +65,7 @@ my $parsedInteractions = readInteractions($bfile, \%geneMap);
 my %interactions = %{$parsedInteractions};
 
 # parse SAINT Interactions
-my $parsedSaintInteractions = readSaintInteractions($sfile, 0.01, 0);
+my $parsedSaintInteractions = readSaintInteractions($sfile, $score, 0);
 my %saintInteractions = %{$parsedSaintInteractions};
 
 # summarizing edges

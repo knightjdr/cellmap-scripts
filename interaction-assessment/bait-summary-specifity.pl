@@ -14,11 +14,10 @@ use Bait::Gene qw(parseMap);
 use Interactions::Parse qw(readInteractions);
 use Interactions::Saint qw(readSaintInteractions);
 use Interactions::Summarize qw(summarizeTop);
+use List::MoreUtils qw(uniq);
+use Specificity::FoldChange qw(specfc);
 
 #parameters
-my $adjust = 1; # if true, spectral counts will be adjusted to length
-my $controlSubtraction = 1; # subtract average control value
-my $fileType = 'b';
 my $score = 0.01; # fdr
 my $topX = 25;
 
@@ -28,32 +27,23 @@ my $mfile = '';	# file with a map of Bait names to gene names "bait.dat" from Pr
 my $sfile = '';	# SAINT file
 
 if ($#ARGV==0){
-  print "\nTakes a SAINT file and a BioGRID/IntAct file, and for each bait it calculates the number of\n";
+  print "\nTakes a SAINT file and an interaction file, and for each bait it calculates the number of\n";
   print "newly discovered preys, number of discovered previsouly known preys, and the number of\n";
   print "previously known preys that were missed. Also requires a file for mapping bait names to\n";
   print "gene names. Unlike bait-summary.pl, this is for only the top X preys (X = 25 default).\n\n";
 	print "\nusage:\n $0\n";
-  print "-a [adjust spectral counts to length? [1 (default): true, 0: false]]\n";
-	print "-b [BioGRID/IntAct file]\n";
-  print "-c [should control avg be subtracted from AvgSpec: 1 (default) = true, 0 = false]";
+	print "-b [Interaction file]\n";
   print "-f [FDR cutoff]\n";
 	print "-m [SAINT bait-gene map]\n";
 	print "-s [SAINT file]\n";
-	print "-t [file type: b = BioGRID (default), i = IntAct, m = merged\n";
   print "-x [Number of preys to do this for (25 default)]\n";
 	die "\n";
 } else{
 	my $i = 0;
 	while($i <= $#ARGV){
-		if ($ARGV[$i] eq '-a'){
-			$i++;
-			$adjust = $ARGV[$i];
-		} elsif ($ARGV[$i] eq '-b'){
+		if ($ARGV[$i] eq '-b'){
 			$i++;
 			$bfile = $ARGV[$i];
-		} elsif ($ARGV[$i] eq '-c'){
-			$i++;
-			$controlSubtraction = $ARGV[$i];
 		} elsif ($ARGV[$i] eq '-f'){
 			$i++;
 			$score = $ARGV[$i];
@@ -63,9 +53,6 @@ if ($#ARGV==0){
 		} elsif ($ARGV[$i] eq '-s'){
 			$i++;
 			$sfile = $ARGV[$i];
-		} elsif ($ARGV[$i] eq '-t'){
-			$i++;
-			$fileType = $ARGV[$i];
 		} elsif ($ARGV[$i] eq '-x'){
 			$i++;
 			$topX = $ARGV[$i];
@@ -85,34 +72,33 @@ my %geneMap = %{$geneBaitMap};
 my $parsedInteractions = readInteractions($bfile, \%geneMap);
 my %interactions = %{$parsedInteractions};
 
-# parse SAINT Interactions
-my $parsedSaintInteractions = readSaintInteractions($sfile, 0.01, 1);
-my %saintInteractions = %{$parsedSaintInteractions};
+# read entire SAINT file
+my $allParsedSaintInteractions = readSaintInteractions($sfile, 1, 0);
+my %allSaintInteractions = %{$allParsedSaintInteractions};
 
-# sort preys for each bait based on spectral counts, and only keep top X
+# Calculate specificity score for each prey on a bait-by-bait basis
+my $calculatedSpecificity = specfc(\%allSaintInteractions);
+my %specificity = %{$calculatedSpecificity};
+
+# Filter saint interactions
+my %saintInteractions;
+foreach my $bait (keys %allSaintInteractions) {
+  foreach my $prey (keys %{$allSaintInteractions{$bait}}) {
+    if ($allSaintInteractions{$bait}{$prey}{'fdr'} <= $score) {
+      $saintInteractions{$bait}{$prey} = $specificity{$bait}{$prey};
+    }
+  }
+}
+
+# sort preys for each bait based on specificity, and only keep top X
 my %topPreys;
 foreach my $bait (keys %saintInteractions) {
-  if ($adjust) {
-    # adjust prey spectral count to length
-    my @lengths;
-    foreach my $prey (keys %{$saintInteractions{$bait}}) {
-      push @lengths, $saintInteractions{$bait}{$prey}{'length'};
-    }
-    my $median = median @lengths;
-    @{$topPreys{$bait}{'list'}} = sort {
-      $saintInteractions{$bait}{$b}{'avgspec'} * $median / $saintInteractions{$bait}{$b}{'length'} <=>
-      $saintInteractions{$bait}{$a}{'avgspec'} * $median / $saintInteractions{$bait}{$a}{'length'}
-      or
-      lc $a cmp lc $b
-    } keys %{$saintInteractions{$bait}};
-  } else {
-    @{$topPreys{$bait}{'list'}} = sort {
-      $saintInteractions{$bait}{$b}{'avgspec'} <=>
-      $saintInteractions{$bait}{$a}{'avgspec'}
-      or
-      lc $a cmp lc $b
-    } keys %{$saintInteractions{$bait}};
-  }
+  @{$topPreys{$bait}{'list'}} = sort {
+    $saintInteractions{$bait}{$b} <=>
+    $saintInteractions{$bait}{$a}
+    or
+    lc $a cmp lc $b
+  }keys %{$saintInteractions{$bait}};
   my $limit = $topX;
   if (scalar @{$topPreys{$bait}{'list'}} < $limit) {
     $limit = scalar @{$topPreys{$bait}{'list'}};
@@ -126,10 +112,7 @@ my %recovered = %{$recoveredInteractions};
 my %stats = %{$interactionsStats};
 
 # output stats
-my $fileHandle = 'bait-level-recovery_top' . $topX;
-if ($adjust) {
-  $fileHandle .= '_lengthAdjusted'
-}
+my $fileHandle = 'bait-level-recovery_top' . $topX . '_specificity';
 $fileHandle .= '.txt';
 open my $resultsfh, '>', $fileHandle;
 print $resultsfh "bait\tunknown\tknown\tfraction\trecovered preys\ttop preys\n";

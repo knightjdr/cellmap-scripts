@@ -18,7 +18,7 @@ Requires:
 
 1. Run script
 ```
-"$CMSCRIPTS"/interaction-assessment/complex-validation.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
+"$CMSCRIPTS"/interaction-assessment/complex-validation.pl -b interactions.txt -m bait-gene.txt -s saint.txt
 ```
 
 2.	Output:
@@ -42,14 +42,14 @@ Requires
 
 1. Run script
 ```
-"$CMSCRIPTS"/interaction-assessment/bait-summary.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
+"$CMSCRIPTS"/interaction-assessment/bait-summary.pl -b interactions.txt -m bait-gene.txt -s saint.txt
 ```
 
 2.	Output:
 * bait-level-recovery.txt
 * edge-recovered.txt for plotting known bait-prey interaction partners on Cytoscape
 
-### Bait assessment, top 25 preys
+### Bait assessment, top 25 preys by abudance
 
 * SAINT file
 * interaction file from BioGRID, Intact or merged
@@ -67,8 +67,30 @@ Requires
 
 1. Run script
 ```
-"$CMSCRIPTS"/interaction-assessment/bait-summary-spec.pl -b interactions.txt -m bait-gene.txt -s saint.txt -t m
+"$CMSCRIPTS"/interaction-assessment/bait-summary-abundance.pl -b interactions.txt -m bait-gene.txt -s saint.txt
 ```
 
 2.	Output:
 * bait-level-recovery_top25_lengthAdjusted.txt
+
+### Bait assessment, top 25 preys by specificity
+
+* SAINT file
+* interaction file from BioGRID, Intact or merged
+* FDR cutoff, default 0.01
+* number of top preys to use, default is 25
+* bait to gene name map
+
+| bait  | gene  |
+|-------|-------|
+| bait1 | genea |
+| bait2 | geneb |
+| ...   | ...   |
+
+1. Run script
+```
+"$CMSCRIPTS"/interaction-assessment/bait-summary-specificity.pl -b interactions.txt -m bait-gene.txt -s saint.txt
+```
+
+2.	Output:
+* bait-level-recovery_top25_specificity.txt

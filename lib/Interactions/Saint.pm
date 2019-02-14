@@ -35,6 +35,7 @@ sub readSaintInteractions {
     my $prey = @{$row}[2];
     if ($fdr <= $cutoff) {
       $interactions{$bait}{$prey}{'avgspec'} = $avgSpec;
+      $interactions{$bait}{$prey}{'fdr'} = $fdr;
       $interactions{$bait}{$prey}{'length'} = $length;
     }
   }
