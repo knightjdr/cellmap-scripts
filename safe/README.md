@@ -7,7 +7,7 @@ For details on running SAFE, see
 
 ### Make prey vs GO term matrix
 
-Generate matrix of preys vs GO terms, with cells equal to the binary value (1 if prey has the term, 0 if not). This only needs to be done for the lowest correlation cutoff you want to test. Generate a separate (or merged) matrix for each GO namespace you want to test.
+Generate matrix of preys vs GO terms, with cells equal to the binary value (1 if prey has the term, 0 if not). This only needs to be done for the lowest correlation cutoff to test. Generate a separate (or merged) matrix for each GO namespace you want to test.
 
 Requires:
 * Gene Ontology (go-basic.obo)
@@ -28,13 +28,11 @@ Requires:
 
 The SAFE iterator will run on each network and annotation matrix supplied, and test a range of enrichment radii.
 
-In the below steps, replace $HOME with the path of your folder containing the cellmap-scripts folder.
-
 Requires
 * annotation matrices
 * Cytoscape network
 
-1. Open Matlab and specify path SAFE folder. Note, $HOME must be replaced by the path name.
+1. Open Matlab and specify path SAFE folder. Note, $CMSCRIPTS must be replaced by the path name.
 ```
 addpath(genpath('"$CMSCRIPTS"/safe/'));
 ```
@@ -57,7 +55,7 @@ cp "$CMSCRIPTS"/safe/safe.ini .
 analysisFolder = '"$CMSCRIPTS"/safe/analysis';
 ```
 
-6. Place all annotation matrices in `"$CMSCRIPTS"/safe/analysis/annotationMatrices`. Files should be named cc_something.cys, and Matlab will grab the part before the underscore for naming the results folder.
+6. Place all annotation matrices in `"$CMSCRIPTS"/safe/analysis/annotationMatrices`. Files should be named cc_something.txt, and Matlab will grab the part before the underscore for naming the results folder.
 
 7. Place all networks to test in `"$CMSCRIPTS"/safe/analysis/networkFolder`. Networks should be named 0.7_something.cys and Matlab will grab the part before the underscore for naming the results folder.
 
@@ -94,7 +92,7 @@ Requires
 
 2. Run script
 ```
-"$CMSCRIPTS"/safe/safe-assessor.pl -g go-children.txt -l goa_human_nohead.gaf -m go-map.txt -n C
+"$CMSCRIPTS"/safe/safe-assessor.pl -g go-children.txt -l goa_human_nohead.gaf -m go-map_cc.txt -n C
 ```
 
 3. Output
@@ -102,7 +100,7 @@ Requires
 
 ### After selecting best SAFE parameters
 
-The below script assumes you have selected a SAFE parameter set and results to use for your dataset. 
+The below script assumes a SAFE parameter set and results have been selected. 
 
 #### Perform GO enrichment on SAFE domains
 
@@ -114,7 +112,7 @@ Requries
 
 1. Move into results folder for parameter set, e.g for a network with a correlation cutoff of 0.6, annotated with CC terms and a radius of 3.5
 ```
-mv "$CMSCRIPTS"/safe/analysis/Results/0.6cc_ccns_3.5r/
+cd "$CMSCRIPTS"/safe/analysis/results/0.6cc_ccns_3.5r/
 ```
 
 2. Run script

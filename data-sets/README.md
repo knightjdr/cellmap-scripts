@@ -42,7 +42,7 @@ Requires:
 
 ### Gene Ontology
 
-1. Download gene annotations (goa_human.gaf.gz) from http://www.geneontology.org/page/download-annotations
+1. Download gene annotations (goa_human.gaf.gz) from http://current.geneontology.org/annotations/
 
 2. Create a file called goa_human_nohead.gaf which simply removes the header lines from the above file.
 
