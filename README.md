@@ -32,7 +32,6 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * prey-prey complex recovery
 
 5. cytoscape
-* format correlation file for Cytoscape
 * generate network for SAFE
 
 6. safe
