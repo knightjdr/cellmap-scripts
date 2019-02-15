@@ -61,16 +61,17 @@ Requires
 
 ### Capturing known complexes
 
-Determine what proportion of interactions are previously known to be part of the same complex, assuming a prey-prey passing a correlation cutoff is an interaction. For each correlation cutoff this script will report the fraction that are known to be part of a complex.
+Determine what proportion of interactions are previously known to be part of the same complex, assuming a prey pair passing a correlation cutoff is an interaction. For each correlation cutoff this script will report the fraction that are known to be part of a complex. The script does not include self-interactions as it really skews the results.
 
 Requires
 * preyvprey_df.tsv from correlation tool (need to delete JSON bit)
 * list of genes in correlation file or list of genes to check
-* list of genes in protein complexes (from huMap or Corum)
+* list of genes in protein complexes (from huMAP or Corum)
+* file type: c for Corum (default) or h for huMAP
 
 1. Run script
 ```
-"$CMSCRIPTS"/prey-compex-validation.pl -b protein-complex.txt -c preyvprey_df.tsv -g gene-list.txt
+"$CMSCRIPTS"/prey-compex-validation.pl -b corum.txt -c preyvprey_df.tsv -g gene-list.txt -t c
 ```
 
 2. Output

@@ -6,28 +6,29 @@ use strict;
 use warnings;
 
 # libraries
-use Data::Dumper; # use like this to print an array print Dumper \@array;
+use FindBin;
+use lib "$FindBin::RealBin/../lib"; 
+
 use List::MoreUtils qw(uniq);
+use Prey::InteractorOutput qw(output);
 use Text::CSV_XS;
 
 # paramaters
-my $fileType = 'b';
 my $requiredEvidence = 1;
 
 # command line parameters
-my $bfile = ''; # BioGRID file
+my $bfile = ''; # interaction file
 my $cfile = '';	# correlation file
 my $gfile = ''; # list of all genes to check for interactors
 
 if ($#ARGV==0) {
-	print "\nTakes a ProHits-viz correlation file and a BioGRID, IntAct or merged file, and calculates\n";
+	print "\nTakes a ProHits-viz correlation file and an interactions file, and calculates\n";
 	print "the percentage of recovered known interactions for each correlation cutoff. Need to include a\n";
 	print "file with a list of all genes to check.\n\n";
 	print "\nusage:\n $0\n";
 	print "-b [interaction file]\n";
 	print "-c [correlation file]\n";
   print "-g [list of prey genes in correlation file]\n";
-  print "-t [file type: b = BioGRID (default), i = IntAct, m = merged\n";
 	die "\n";
 } else{
 	my $i = 0;
@@ -41,9 +42,6 @@ if ($#ARGV==0) {
 		} elsif ($ARGV[$i] eq '-g') {
 			$i++;
 			$gfile = $ARGV[$i];
-		} elsif ($ARGV[$i] eq '-t') {
-			$i++;
-			$fileType = $ARGV[$i];
 		} else {
 			die "\nIncorrect program usage\n\n";
 		}
@@ -61,9 +59,9 @@ while(my $row = $tsv->getline($fh)) {
 close($fh);
 my %geneFilterHash = map { $_ => 1 } @geneFilter;
 
-# parse BioGRID/IntAct file
+# parse interactor file
 print STDERR "Getting list of interactors\n";
-my %biogrid;
+my %interactions;
 my $totalInteractions = 0;
 $tsv = Text::CSV_XS->new({
   binary => 1,
@@ -75,69 +73,19 @@ $tsv = Text::CSV_XS->new({
 });
 open $fh, '<', $bfile or die "Could not open $bfile: $!";
 $tsv->getline($fh); #discard header
-if ($fileType eq 'i') {
-	while(my $row = $tsv->getline($fh)) {
-    my $sourceSpeciesCell = @{$row}[9];
-  	my $targetSpeciesCell = @{$row}[10];
-  	my ($sourceSpecies) = $sourceSpeciesCell =~ /^taxid:([-\d]+)\(/;
-  	my ($targetSpecies) = $targetSpeciesCell =~ /^taxid:([-\d]+)\(/;
-  	if ($sourceSpecies &&
-  		$targetSpecies &&
-  		(
-  			($sourceSpecies == 9606 && $targetSpecies > 0) ||
-  			($targetSpecies == 9606 && $sourceSpecies > 0)
-  		)
-  	) {
-  		my $sourceCell = @{$row}[4];
-  		my $targetCell = @{$row}[5];
-  		my ($source) = $sourceCell =~ /uniprotkb:([^\(]+)\(gene name\)/;
-  		my ($target) = $targetCell =~ /uniprotkb:([^\(]+)\(gene name\)/;
-  		if($source && $target) {
-        $source = lc $source;
-    		$target = lc $target;
-        my @pair = ($source, $target);
-    		@pair = sort @pair;
-    		my $joinedPair = join '_', @pair;
-    		if (exists $geneFilterHash{$source} ||
-          exists $geneFilterHash{$target} &&
-          !(exists $biogrid{$joinedPair})
-        ) {
-    			$biogrid{$joinedPair} = 1;
-          $totalInteractions++
-    		}
-      }
-    }
-  }
-} elsif ($fileType eq 'm') {
-	while(my $row = $tsv->getline($fh)) {
-		my $source = lc @{$row}[0];
-		my $target = lc @{$row}[1];
-		my @pair = ($source, $target);
-		@pair = sort @pair;
-		my $joinedPair = join '_', @pair;
-		if (
-			exists $geneFilterHash{$source} ||
-			exists $geneFilterHash{$target} &&
-			!(exists $biogrid{$joinedPair})
-		) {
-			$biogrid{$joinedPair} = 1;
-			$totalInteractions++;
-		}
-	}
-} else {
-  while(my $row = $tsv->getline($fh)) {
-    my $source = lc @{$row}[7];
-		my $target = lc @{$row}[8];
-		my @pair = ($source, $target);
-		@pair = sort @pair;
-		my $joinedPair = join '_', @pair;
-		if (exists $geneFilterHash{$source} ||
-      exists $geneFilterHash{$target} &&
-      !(exists $biogrid{$joinedPair})
-    ) {
-			$biogrid{$joinedPair} = 1;
-      $totalInteractions++
-		}
+while(my $row = $tsv->getline($fh)) {
+  my $source = lc @{$row}[0];
+  my $target = lc @{$row}[1];
+  my @pair = ($source, $target);
+  @pair = sort @pair;
+  my $joinedPair = join '_', @pair;
+  if (
+    exists $geneFilterHash{$source} ||
+    exists $geneFilterHash{$target} &&
+    !(exists $interactions{$joinedPair})
+  ) {
+    $interactions{$joinedPair} = 1;
+    $totalInteractions++;
   }
 }
 close($fh);
@@ -156,16 +104,17 @@ while(my $row = $corrTSV->getline($corrFH)) {
   if ($correlation >= 0) {
     my $source = lc @{$row}[0];
   	my $target = lc @{$row}[1];
-		#if ($source ne $target) {
-			my @pair = ($source, $target);
-	    @pair = sort @pair;
-	    my $joinedPair = join '_', @pair;
-	    if (exists $biogrid{$joinedPair}) {
-	      push @{$correlationInteractions[$correlation]{'recovered'}}, $joinedPair;
-	  	} else {
-	      push @{$correlationInteractions[$correlation]{'discovered'}}, $joinedPair;
-	    }
-		#}
+    # next "if" is commented out to include self interaction
+		# if ($source ne $target) {
+		my @pair = ($source, $target);
+	  @pair = sort @pair;
+	  my $joinedPair = join '_', @pair;
+	  if (exists $interactions{$joinedPair}) {
+	    push @{$correlationInteractions[$correlation]{'recovered'}}, $joinedPair;
+	  } else {
+	    push @{$correlationInteractions[$correlation]{'discovered'}}, $joinedPair;
+	  }
+		# }
   }
   $countLines++;
   if ($countLines % 100000 == 0) {
@@ -183,27 +132,5 @@ for(my $i = 0; $i <=100; $i++) {
 }
 
 # print fraction known
-print STDERR "Formatting output\n";
-open my $fractionfh, '>', 'prey-interactors-recovered.txt';
-print $fractionfh "cutoff\tdiscovered\trecovered\tmissed\tfraction\n";
-for(my $i = 0; $i <= 100; $i++) {
-  my @discoveredArray;
-  my @recoveredArray;
-  for(my $j = $i; $j <= 100; $j++) {
-    if ($correlationInteractions[$j]) {
-      if (exists $correlationInteractions[$j]{'discovered'}) {
-        push @discoveredArray, @{$correlationInteractions[$j]{'discovered'}};
-      }
-      if (exists $correlationInteractions[$j]{'recovered'}) {
-        push @recoveredArray, @{$correlationInteractions[$j]{'recovered'}};
-      }
-    }
-  }
-  my $discovered = scalar uniq @discoveredArray;
-	my $recovered = scalar uniq @recoveredArray;
-  my $missed = $totalInteractions - $recovered;
-	my $fraction = sprintf "%.3f", $recovered / ($discovered + $recovered);
-	my $correlationCutoff = sprintf "%.2f", $i / 100;
-	print $fractionfh "$correlationCutoff\t$discovered\t$recovered\t$missed\t$fraction\n"
-}
-close $fractionfh;
+my $filename = 'prey-interactors-recovered.txt';
+output($filename, \@correlationInteractions, $totalInteractions, 100);

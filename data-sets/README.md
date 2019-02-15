@@ -63,7 +63,7 @@ Requires:
 * go-terms.txt list of all terms in specified namespace
 * go-children.txt lists all children for each term
 
-### Map terms to IDs
+#### Map terms to IDs
 
 Requires:
 * go-basic.obo
@@ -106,11 +106,11 @@ Requires
 
 1. Download protein complex file
 * http://proteincomplexes.org/download
-* Click `Protein Complex Map (genenames)`. Will produce file called genename_clusters.txt.
+* Click `Protein Complex Map (genenames)`. Will produce file called `genename_clusters.txt` and rename to `humap.txt`.
 
 ### Corum
 
 1. Download complex list
 * http://mips.helmholtz-muenchen.de/corum/#download
-* Download complete complexes in .txt format. Will produce file called allComplexes.txt.
+* Download complete complexes in .txt format. Will produce file called `allComplexes.txt` and rename to `corum.txt`.
 

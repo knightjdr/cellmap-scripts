@@ -6,8 +6,11 @@ use strict;
 use warnings;
 
 # libraries
-use Data::Dumper; # use like this to print an array print Dumper \@array;
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use List::MoreUtils qw(uniq);
+use Prey::InteractorOutput qw(output);
 use Text::CSV_XS;
 
 # command line parameters
@@ -151,26 +154,8 @@ for(my $i = 0; $i <=100; $i++) {
 }
 
 # print fraction known
-print STDERR "Formatting output\n";
-open my $fractionfh, '>', 'prey-complex-recovered.txt';
-print $fractionfh "cutoff\tdiscovered\trecovered\tfraction\n";
-for(my $i = 0; $i <= 99; $i++) {
-  my @discoveredArray;
-  my @recoveredArray;
-  for(my $j = $i; $j <= 99; $j++) {
-    if ($correlationInteractions[$j]) {
-      if (exists $correlationInteractions[$j]{'discovered'}) {
-        push @discoveredArray, @{$correlationInteractions[$j]{'discovered'}};
-      }
-      if (exists $correlationInteractions[$j]{'recovered'}) {
-        push @recoveredArray, @{$correlationInteractions[$j]{'recovered'}};
-      }
-    }
-  }
-  my $discovered = scalar uniq @discoveredArray;
-	my $recovered = scalar uniq @recoveredArray;
-	my $fraction = sprintf "%.3f", $recovered / ($discovered + $recovered);
-	my $correlationCutoff = sprintf "%.2f", $i / 100;
-	print $fractionfh "$correlationCutoff\t$discovered\t$recovered\t$fraction\n"
+my $filename = 'prey-complex-recovered-corum.txt';
+if ($fileType eq 'h') {
+  $filename = 'prey-complex-recovered-humap.txt';
 }
-close $fractionfh;
+output($filename, \@correlationInteractions, 0, 100);
