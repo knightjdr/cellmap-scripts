@@ -12,35 +12,22 @@ if (length(args) < 2) {
 }
 
 #preys to omit from analysis (highlight abundant frequent flyers)
-#omit = c("AHNAK", "CCT8")
 omit = c()
 
-#filter data by preys
+# filter data by preys
 sigPreys = unique(data$PreyGene[data$BFDR <= fdr & !(data$PreyGene %in% omit)])
 fData = data[data$PreyGene %in% sigPreys, ]
-#next two lines are for control subtraction. Comment out if not desired.
+
+# control subtraction
 temp = lapply(lapply(strsplit(fData$ctrlCounts, "\\|"), as.numeric), mean)
 fData$AvgSpec <- round(fData$AvgSpec - unlist(temp), 2)
-#next section is for adding spectral counts for the baits themselves
-#baits = unique(fData$Bait)
-#for(i in 1:length(baits)){
-#  tmp_df <- fData[fData$Bait == baits[i], ]
-#  tmp_df <- tmp_df[tmp_df$BFDR <= fdr, ]
-#  if(nrow(tmp_df) > 0) {
-#    add_row <- tmp_df[tmp_df$AvgSpec == max(tmp_df$AvgSpec), ]
-#    add_row["PreyGene"] <- baits[i]
-#    fData <- rbind(fData, add_row)
-#  }
-#}
+
 fData <- fData[order(fData$Bait),]
 
 #convert dataframe to matrix
 scData = acast(fData, Bait ~ PreyGene, value.var="AvgSpec", fun.aggregate = mean)
 scData[is.na(scData)] = 0
 scData[scData < 0] = 0
-
-#scale to unit variance
-#scData = scale(scData)
 
 #normalize each prey column to 1
 for(i in 1:ncol(scData)) {

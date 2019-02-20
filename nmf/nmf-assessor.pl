@@ -107,7 +107,7 @@ closedir $attrDir;
 opendir my ($nodeDir), $dirNodes or die "Couldn't open dir '$dirNodes': $!";
 my @nodeFiles = readdir $nodeDir;
 closedir $nodeDir;
-print STDOUT "conditions\tnumber of nodes\tknown assignments\tfraction\tknown assignments (tpop 5)\tfraction (top 5)\tknown per domain\tnumber of NMF ranks\tworst Jaccard\tbest Jaccard\n";
+print STDOUT "conditions\tnumber of nodes\tknown assignments\tfraction\tknown assignments (top 5)\tfraction (top 5)\tknown per domain\tnumber of NMF ranks\tworst Jaccard\tbest Jaccard\n";
 foreach my $attrFile (@attrFiles) {
   if ($attrFile =~ /(.+)-terms_perrank/) {
     # get terms (and children) per domain

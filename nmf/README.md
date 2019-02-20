@@ -76,7 +76,7 @@ cd "$CMSCRIPTS"/nmf/analysis
 
 ### Assess NMF terms
 
-Take all terms within each rank (including children), and then for each pprey gene it will see if the genes are being assigned to a rank with a previously known term.
+Take all terms within each rank (including children), and then for each prey gene it will see if the genes are being assigned to a rank with a previously known term.
 
 Requires
 * GO annotations, (goa_human.gaf without header)

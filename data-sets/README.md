@@ -83,7 +83,9 @@ Requires:
 * http://www.uniprot.org/downloads
 * Want the .txt format for the Reviewed (Swiss-Prot) release
 
-### Information content
+### Information content (using ITGOM - oboslete, don't use this anymore)
+
+This is obsolete since they haven't updated since 2014.
 
 Papers:
 * http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4256219
