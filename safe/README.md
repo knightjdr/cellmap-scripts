@@ -84,7 +84,7 @@ Take all terms within each domain (including children), and then for each node/g
 
 Requires
 * GO annotations, (goa_human.gaf without header)
-* List of children for each GO term
+* List of children for each GO term ()
 * Map of GO IDs to terms
 * GO namespace, default C, one of C, F or P
 
@@ -143,7 +143,7 @@ Requires:
 
 1. Run script to generate node colours
 ```
-"$CMSCRIPTS"/safe/safe_color.pl
+"$CMSCRIPTS"/safe/safe-color.pl -n node_properties_annotation-highest.txt -s domain-summary.txt
 ```
 
 2. Output

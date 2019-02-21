@@ -49,6 +49,7 @@ my %transparency = (
 
 # command line parameters
 my $bfile = '';	# basis.csv
+my $rfile = '';	# rank summary file
 my $sfile = ''; # scores.csv
 
 if ($#ARGV == 0) {
@@ -56,6 +57,7 @@ if ($#ARGV == 0) {
 	print "Also produces a cytoscape compatible file.\n";
 	print "\nusage:\n $0\n";
 	print "-b [basis.csv]\n";
+  print "-r [rank summary.txt]\n";
 	print "-s [scores.csv]\n";
 	die "\n";
 } else {
@@ -64,7 +66,10 @@ if ($#ARGV == 0) {
 		if ($ARGV[$i] eq '-b'){
 			$i++;
 			$bfile = $ARGV[$i];
-		} elsif ($ARGV[$i] eq '-s'){
+		} elsif ($ARGV[$i] eq '-r'){
+      $i++;
+      $rfile = $ARGV[$i];
+    } elsif ($ARGV[$i] eq '-s'){
 			$i++;
 			$sfile = $ARGV[$i];
 		} else{
@@ -74,13 +79,27 @@ if ($#ARGV == 0) {
 	}
 }
 
+# Read rank names.
+my @rankNames;
+push @rankNames, '';
+open my $rankFH, '<', $rfile or die "Could not open $rfile: $!";
+my $rankTSV = Text::CSV_XS->new({
+	sep_char => "\t",
+});
+$rankTSV->getline($rankFH); # discard header
+while(my $row = $rankTSV->getline($rankFH)) {
+	my ($rank) = @{$row}[1] =~ /\[(.+)\]/;
+	push  @rankNames, $rank;
+}
+close $rankFH;
+
 my $formatDetails = '{"type": "heatmap", "kind": "rank vs prey", "xAxis": "Rank", "yAxis": "Prey", "filterType": 0, "primary": 0.01, "secondary": 0.05, "score": "N/A", "abundance": "N/A"}';
 
 # basis matrix
 open my $basisFH, '>', 'pv_basis.tsv';
 print $basisFH "row\tcolumn\tvalue\tparams\n";
-open my $rankFH, '>', 'rank-color.tsv';
-print $rankFH "name\trank\tcolor\ttransparency\n";
+open my $rankOutputFH, '>', 'rank-color.tsv';
+print $rankOutputFH "name\trank\trank name\tcolor\ttransparency\n";
 open my $basisInputFH, '<', $bfile or die "Could not open $bfile: $!";
 my $basisTSV = Text::CSV_XS->new({});
 my $header = $basisTSV->getline($basisInputFH); # discard header
@@ -110,9 +129,9 @@ while(my $row = $basisTSV->getline($basisInputFH)) {
 	# create color based on transparency and color for best rank
 	#my $color = '#' . $transparency{$transparencyValue} . substr $colors[$bestRank], 1;
 	my $currTransparency = round $bestValue * 255;
-	print $rankFH "@{$row}[0]\t$bestRank\t$colors[$bestRank]\t$currTransparency\n";
+	print $rankOutputFH "@{$row}[0]\t$bestRank\t$rankNames[$bestRank]\t$colors[$bestRank]\t$currTransparency\n";
 }
-close $rankFH;
+close $rankOutputFH;
 close $basisFH;
 close $basisInputFH;
 

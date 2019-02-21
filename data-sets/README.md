@@ -116,3 +116,41 @@ Requires
 * http://mips.helmholtz-muenchen.de/corum/#download
 * Download complete complexes in .txt format. Will produce file called `allComplexes.txt` and rename to `corum.txt`.
 
+# Pfam
+
+1. Download human domains
+* ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/proteomes/
+* want the file 9606.tsv (need to delete first two lines)
+
+## motifs
+
+Pfam motifs (e.g. disordered and low complexity regions) can only be retrieved programmatically. For example, information for the Uniprot ID Q9NRA8 can be retrieved in JSON format at this URL: http://pfam.xfam.org/protein/Q9NRA8/graphic.
+
+Requires:
+* UniProt file (uniprot_sprot.txt)
+* Species (specifed in script, Homo sapiens by default)
+
+1. Run script
+```
+"$CMSCRIPTS"/data-sets/pfam-format.pl -u uniprot_sprot.txt
+```
+
+2. Output
+* pfam_motifs.txt (will contain only two columns: gene name and motif, with no duplicates per gene)
+* pfam_motif_complete.txt will have all motifs, along with start and end positions, length, etc
+
+## domains
+
+Using UniProt as a map grab domains from Pfam
+
+Requires:
+* UniProt file (uniprot_sprot.txt)
+* Pfam file (9606.tsv)
+
+1. Run script
+```
+"$CMSCRIPTS"/data-sets/domain-extraction.pl -p 9606.tsv -u uniprot_sprot.txt
+```
+
+2. Output
+* pfam-domains.txt

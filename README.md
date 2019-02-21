@@ -49,3 +49,9 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * generate heat map for viewing NMF matrices
 * generate Cytoscape network based on correlation
 * create t-SNE map from basis matrix
+
+8. enrichments
+* enriched domains for NMF or SAFE compartments
+* enriched motifs for NMF or SAFE compartments
+
+9. networks (for website)

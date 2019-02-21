@@ -48,7 +48,7 @@ while(my $row = $basisTsv->getline($basisFH)) {
 close $basisFH;
 
 # Open file for output
-open my $outfile, '>', 'moonlighting.tsv';
+open my $outfile, '>', 'moonlighting.txt';
 print $outfile "percent threshold\tfraction\n";
 
 # Calculate %preys moonlighting.

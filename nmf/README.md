@@ -10,7 +10,7 @@ Requires:
 
 1. Run script
 ```
-saintFormat.R saint.txt 0.01
+"$CMSCRIPTS"/nmf/saintFormat.R saint.txt 0.01
 ```
 
 2. Output
@@ -177,7 +177,7 @@ Requires:
 
 3. Run script to generate files for prohits-viz
 ```
-"$CMSCRIPTS"/nmf/nmf-heatmap.pl -b clustered_basis.csv -s clustered_scores.csv
+"$CMSCRIPTS"/nmf/nmf-heatmap.pl -b clustered_basis.csv -s clustered_scores.csv -r rank-summary.txt
 ```
 
 4. Output
@@ -224,7 +224,7 @@ Requires:
 
 6. Save file as .cys and .cyjs (.cyjs will be used for u+q network on cell-map.org)
 
-### Configure Cytoscape file for website
+### Configure Cytoscape file for u+q on website
 
 Takes .cyjs file from previous step and removes unneeded data attributes.
 
