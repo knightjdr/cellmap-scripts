@@ -1,0 +1,319 @@
+[
+  {
+    "name": "membrane-bound",
+    "children": [
+      {
+        "name": "plasma membrane",
+        "children": [
+          {
+            "name": "caveola"
+          },
+          {
+            "name": "cell junction",
+            "children": [
+              {
+					 "displayname": "anchoring",
+                "name": "anchoring junction",
+                "children": [
+                  {
+                    "displayname": "adherens",
+                    "name": "adherens junction"
+                  },
+                  {
+                    "name": "desmosome"
+                  }
+                ]
+              },
+              {
+                "displayname": "gap",
+                "name": "gap junction"
+              },
+              {
+                "displayname": "tight",
+                "name": "bicellular tight junction"
+              }
+            ]
+          },
+          {
+            "name": "focal adhesion"
+          },
+          {
+            "displayname": "leading edge",
+            "name": "cell leading edge",
+            "children": [
+              {
+                "name": "filopodium"
+              },
+              {
+                "name": "lamellipodium"
+              },
+              {
+                "name": "ruffle"
+              }
+            ]
+          },
+          {
+            "name": "membrane raft"
+          },
+          {
+            "name": "podosome"
+          }
+        ]
+      },
+      {
+        "name": "endocytic system",
+        "children": [
+          {
+            "name": "autophagosome"
+			 },
+          {
+            "name": "clathrin-coated pit"
+          },
+          {
+            "name": "endosome",
+            "children": [
+              {
+                "displayname": "early",
+                "name": "early endosome"
+              },
+              {
+                "displayname": "late",
+                "name": "late endosome"
+              },
+              {
+                "name": "lysosome"
+				  },
+              {
+                "displayname": "recycling",
+                "name": "recycling endosome"
+              }
+            ]
+          }
+		  ]
+      },
+      {
+        "name": "exocytic system",
+        "children": [
+          {
+            "name": "Golgi apparatus",
+            "children": [
+              {
+                 "displayname": "membrane",
+                 "name": "Golgi membrane"
+               },
+               {
+                "displayname": "lumen",
+                "name": "Golgi lumen"
+              }
+				]
+          },
+          {
+            "displayname": "ERGIC",
+				"name": "endoplasmic reticulum-Golgi intermediate compartment"
+          },
+          {
+            "name": "endoplasmic reticulum",
+            "children": [
+              {
+                "displayname": "membrane",
+                "name": "endoplasmic reticulum membrane"
+              },
+              {
+                "displayname": "lumen",
+                "name": "endoplasmic reticulum lumen"
+              }
+				]
+          }
+        ]
+      },
+		{
+			"displayname": "nuclear/ER membrane",
+			"name": "nuclear outer membrane-endoplasmic reticulum membrane network"
+		},
+      {
+        "name": "mitochondrion",
+        "children": [
+          {
+            "displayname": "envelope",
+            "name": "mitochondrial envelope",
+            "children": [
+              {
+                "displayname": "outer membrane",
+                "name": "mitochondrial outer membrane"
+              },
+              {
+                "displayname": "intermembrane space",
+                "name": "mitochondrial intermembrane space"
+              },
+              {
+                "displayname": "inner membrane",
+                "name": "mitochondrial inner membrane"
+              }
+            ]
+          },
+          {
+            "displayname": "matrix",
+            "name": "mitochondrial matrix"
+          }
+        ]
+      },
+      {
+        "name": "peroxisome"
+      },
+      {
+        "name": "nucleus",
+        "children": [
+          {
+            "name": "nuclear envelope",
+            "children": [
+              {
+                "name": "nuclear pore"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "non-membrane bound",
+    "children": [
+      {
+        "name": "cytoplasm",
+        "children": [
+          {
+            "name": "centrosome",
+            "children": [
+              {
+                "name": "centriole"
+              },
+              {
+                "name": "pericentriolar material"
+              },
+              {
+                "displayname": "satellite",
+                "name": "centriolar satellite"
+              }
+            ]
+          },
+          {
+            "name": "chaperone",
+            "children": [
+              {
+                "displayname": "CCT",
+					 "name": "chaperonin-containing T-complex"
+              },
+              {
+                "name": "endoplasmic reticulum chaperone complex"
+              }
+            ]
+          },
+          {
+				 "name": "cytoskeleton",
+   			 "children": [
+					 {
+						 "displayname": "actin",
+						 "name": "actin cytoskeleton"
+					 },
+					 {
+					   "name": "intermediate filament",
+					   "children": [
+					      {
+								"displayname": "keratin",
+								"name": "keratin filament"
+					      },
+					      {
+								"displayname": "type III",
+								"name": " type III intermediate filament"
+					      },
+					      {
+								"name": "neurofilament"
+							},
+					      {
+					      	"displayname": "Type V",
+					  	    	"name": "lamin filament"
+					      }
+   				   ]
+					},
+					{
+					  "name": "microtubule"
+					}
+				 ]
+  			  },
+          {
+            "name": "ribosome",
+            "children": [
+              {
+                "displayname": "large subunit",
+                "name": "large ribosomal subunit"
+              },
+              {
+                "displayname": "small subunit",
+                "name": "small ribosomal subunit"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "nucleoplasm",
+        "children": [
+          {
+						"name": "chromosome",
+						"children": [
+   						{
+								"displayname": "centromere",
+								"name": "chromosome, centromeric region",
+								"children": [
+									{
+									  "name": "kinetochore"
+									}
+								]
+							},
+							{
+							  "name": "chromatin",
+							  "children": [
+							    {
+							      "name": "euchromatin"
+							    },
+							    {
+							      "name": "heterochromatin"
+							    }
+							   ]
+							},
+							{
+							  "displayname": "telomere",
+							  "name": "chromosome, telomeric region"
+							}
+   					]
+					},
+					{
+					  "name": "nuclear body",
+					  "children": [
+						  {
+							  "name": "cajal body"
+						  }
+						]
+					},
+					{
+					  "name": "histone acetyltransferase complex"
+					},
+					{
+					  "name": "histone methyltransferase complex"
+					},
+          {
+            "name": "nucleolus",
+            "children": [
+              {
+                "name": "preribosome"
+              }
+            ]
+          },
+          {
+            "name": "spliceosome"
+          }
+        ]
+      }
+    ]
+  }
+]
