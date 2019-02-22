@@ -136,7 +136,7 @@ Requires:
 ```
 
 2. Output
-* pfam_motifs.txt (will contain only two columns: gene name and motif, with no duplicates per gene)
+* pfam_motifs.txt (will contain only two columns: gene name and motif). This file may have duplicate genes, so open in vim and do a `:sort u`
 * pfam_motif_complete.txt will have all motifs, along with start and end positions, length, etc
 
 ## domains

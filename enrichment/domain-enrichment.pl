@@ -6,12 +6,15 @@ use strict;
 use warnings;
 
 # modules
-use Data::Dumper; # use like this to print an array print Dumper \@array;
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use List::MoreUtils qw(uniq);
 use Spreadsheet::WriteExcel;
+use Stats::BenjaminiHochberg qw(bhCorrection);
+use Stats::Fishers qw(fishers);
 use String::Util qw(trim);
 use Text::CSV_XS;
-use Text::NSP::Measures::2D::Fisher::right;
 
 # parameters
 my $fdr = 0.01;
@@ -51,73 +54,6 @@ if ($#ARGV == 0) {
 		}
 		$i++;
 	}
-}
-
-# subs
-sub bhCorrection {
-	my @sortedPValues;
-	my @sortedTerms;
-	my %unsortedHash = %{$_[0]};
-	my $fdr = $_[1];
-	# Order p-values from smallest to largest.
-	foreach my $term (sort { $unsortedHash{$a} <=> $unsortedHash{$b} } keys %unsortedHash) {
-		push @sortedPValues, $unsortedHash{$term};
-		push @sortedTerms, $term;
-	}
-	my $noTests = scalar @sortedPValues;
-	# Set rank for each pvalue. Equivalent p-values get the same rank. The rank
-	# only increments when the p-value changes.
-	my $lastPvalue;
-	my $rank = 1;
-	my @ranks;
-	for(my $i = 0; $i < $noTests; $i++) {
-		if ($i == 0) {
-			$ranks[0] = 1;
-		} else {
-			if ($sortedPValues[$i] > $lastPvalue) {
-				$ranks[$i] = ++$rank;
-			} else {
-				$ranks[$i] = $rank;
-			}
-		}
-		$lastPvalue = $sortedPValues[$i];
-	}
-	# I'm performing B-H correction two ways: 1) calculating the adjusted p-value
-	# as p-value * (number of tests) / (p-value rank); and we want this to be less
-	# than the specified FDR. 2) Using the B-H critical value which is the p-value's
-	# rank * desired FDR / (number of tests); if the critical value >= p-value, that
-	# is a false positive.
-	my %adjustedPValues;
-	my %correctedPValues;
-	my $lastAdjusted = 1;
-	for(my $i = $noTests - 1; $i >= 0; $i--) {
-		my $adjustedP = $unsortedHash{$sortedTerms[$i]} * $noTests / $ranks[$i];
-		if ($adjustedP > 1) {
-			$adjustedP = 1;
-		}
-		if ($lastAdjusted < $adjustedP) {
-			$adjustedP = $lastAdjusted;
-		}
-		$lastAdjusted = $adjustedP;
-		$adjustedPValues{$sortedTerms[$i]} = $adjustedP;
-		$correctedPValues{$sortedTerms[$i]} = $fdr * $ranks[$i] / $noTests;
-	}
-	return (\%adjustedPValues, \%correctedPValues);
-}
-
-sub fishers {
-	# $a = genes that have the domain
-	# $ab = genes tested in this set
-	# $ac = genes with this domain in background
-	# $n = total number of background genes
-	my( $a, $ab, $ac, $n ) = @_;
-	my $p = calculateStatistic(
-		n11 => $a,
-		n1p => $ab,
-		np1 => $ac,
-		npp => $n
-	);
-	return $p;
 }
 
 #get list of genes

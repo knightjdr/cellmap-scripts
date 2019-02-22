@@ -6,17 +6,15 @@ use strict;
 use warnings;
 
 # modules
-use Data::Dumper; # use like this to print an array print Dumper \@array;
-# use IO::Handle;
+use FindBin;
+use lib "$FindBin::RealBin/../lib"; 
+
 use List::MoreUtils qw(uniq);
 use Spreadsheet::WriteExcel;
+use Stats::BenjaminiHochberg qw(bhCorrection);
+use Stats::Fishers qw(fishers);
 use String::Util qw(trim);
 use Text::CSV_XS;
-use Text::NSP::Measures::2D::Fisher::right;
-
-# redirect STDERR to file
-# open ERROR,  '>', "error.txt"  or die $!;
-# STDERR->fdopen( \*ERROR,  'w' ) or die $!;
 
 # parameters
 my $allowMissing = 0; # should genes not found in database be allowed to affect enrichment
@@ -61,67 +59,6 @@ if ($#ARGV == 0) {
 		}
 		$i++;
 	}
-}
-
-# subs
-sub bhCorrection {
-	my @sortedPValues;
-	my @sortedTerms;
-	my %unsortedHash = %{$_[0]};
-	my $fdr = $_[1];
-	# order p-values
-	foreach my $term (sort { $unsortedHash{$a} <=> $unsortedHash{$b} } keys %unsortedHash) {
-		push @sortedPValues, $unsortedHash{$term};
-		push @sortedTerms, $term;
-	}
-	my $noTests = scalar @sortedPValues;
-	# set rank for each
-	my $lastPvalue;
-	my $rank = 1;
-	my @ranks;
-	for(my $i = 0; $i < $noTests; $i++) {
-		if ($i == 0) {
-			$ranks[0] = 1;
-		} else {
-			if ($sortedPValues[$i] > $lastPvalue) {
-				$ranks[$i] = ++$rank;
-			} else {
-				$ranks[$i] = $rank;
-			}
-		}
-		$lastPvalue = $sortedPValues[$i];
-	}
-	my %adjustedPValues;
-	my %correctedPValues;
-	my $lastAdjusted = 1;
-	for(my $i = $noTests - 1; $i >= 0; $i--) {
-		my $adjustedP = $unsortedHash{$sortedTerms[$i]} * $noTests / $ranks[$i];
-		if ($adjustedP > 1) {
-			$adjustedP = 1;
-		}
-		if ($lastAdjusted < $adjustedP) {
-			$adjustedP = $lastAdjusted;
-		}
-		$lastAdjusted = $adjustedP;
-		$adjustedPValues{$sortedTerms[$i]} = $adjustedP;
-		$correctedPValues{$sortedTerms[$i]} = $fdr * $ranks[$i] / $noTests;
-	}
-	return (\%adjustedPValues, \%correctedPValues);
-}
-
-sub fishers {
-	# $a = genes that have the domain
-	# $ab = genes tested in this set
-	# $ac = genes with this domain in background
-	# $n = total number of background genes
-	my( $a, $ab, $ac, $n ) = @_;
-	my $p = calculateStatistic(
-		n11 => $a,
-		n1p => $ab,
-		np1 => $ac,
-		npp => $n
-	);
-	return $p;
 }
 
 #get list of genes
@@ -213,13 +150,7 @@ for my $rank ( sort {$a <=> $b} keys %genesPerRank) {
 	for my $gene (@{$genesPerRank{$rank}}) {
 		if (exists $domainsPerGene{$gene}) {
 			$noRankGenes++; # this is here because we don't won't to count genes with no information
-      if ($rank == 11) {
-        print STDOUT "\n$gene:";
-      }
 			for my $geneDomain (@{$domainsPerGene{$gene}}) {
-        if ($rank == 11) {
-          print STDOUT "$geneDomain;";
-        }
 				if (exists $rankDetails{$geneDomain}) {
 					$rankDetails{$geneDomain}++;
 				} else {
