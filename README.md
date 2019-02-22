@@ -54,6 +54,14 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * enriched domains for NMF or SAFE compartments
 * enriched motifs for NMF or SAFE compartments
 
-9. networks (for website)
+9. organelle assessments
+* assess bait overlap for ER
+* assess bait overlap for Mito
+* assess bait overlap for ER-mito
+
+10. networks (for website)
 * create NMF tSNE network
 * create correlation networks for NMF or SAFE
+
+11. hierarchy
+* build a localization hierarchy for retrieving parent and child terms
