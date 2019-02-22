@@ -55,3 +55,5 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * enriched motifs for NMF or SAFE compartments
 
 9. networks (for website)
+* create NMF tSNE network
+* create correlation networks for NMF or SAFE
