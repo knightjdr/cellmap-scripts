@@ -208,6 +208,19 @@
               }
             ]
           },
+			 {
+            "name": "cytoplasmic ribonucleoprotein granule",
+            "children": [
+				  {
+                "displayname": "P-body",
+					 "name": "cytoplasmic mRNA processing body"
+              },
+              {
+                "displayname": "stress granule",
+					 "name": "cytoplasmic stress granule"
+              }
+            ]
+          },
           {
 				 "name": "cytoskeleton",
    			 "children": [

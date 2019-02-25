@@ -22,6 +22,8 @@ maxGenes = 100
 minValue = 0.25 # a prey must have an NMF value at or above this to be used for enrichment
 percentageMax = 0.75 # if a prey has an NMF value within this % of max, it can be used in those ranks
 
+colMax = function(data) sapply(data, max, na.rm = TRUE)
+
 #filter basis so that a gene only occurs in its top ranks
 fData = basis
 for(i in 1:genes) {
@@ -107,4 +109,12 @@ for(i in 1:ranks) {
 cat('gene\trank\tscore\n', file = paste(resultsFolder, "gene-localizations.txt", sep=""))
 for(i in 1:genes) {
   cat(rownames(basis)[i], which(basis[i, ] == max(basis[i, ])), max(basis[i, ]), '\n', sep="\t", file = paste(resultsFolder, "gene-localizations.txt", sep=""), append = TRUE)
+}
+
+# output best 
+cat('', file = 'top-rank.txt')
+topRank = colMax(basis)
+for(i in 1:length(topRank)) {
+  rounded = format(round(topRank[i], 3), nsmall = 3)
+  cat(paste(i, '\t', rounded, '\n', sep = ''), file = 'top-rank.txt', append = TRUE)
 }

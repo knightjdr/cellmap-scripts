@@ -9,17 +9,22 @@ Requires:
   * rank-summary.txt
   * domain-summary.txt
 * GO terms for eacn rank with (and p-values for NMF)
- * SAFE: attribute_properties_annotation-highest.txt (need to delete the first 4 rows of this file)
+ * SAFE:
+  * terms_perdomain.txt
+  * this used to use attribute_properties_annotation-highest.txt (need to delete the first 4 rows of this file)
  * NMF: terms_perrank.txt
 * Domain, motif and/or diesease file associated with each rank
-* NMF will require a file with the order for ranks (rank_order.txt)
-* SAFE will require a map of go terms to ids (go-map.txt), produced from GO formatting step.
+* NMF
+  * a file with the order for ranks (rank_order.txt)
+  * a file with top value for each rank (top-rank.txt)
+* SAFE
+  * a map of go terms to ids (go-map.txt), produced from GO formatting step.
 
 1. Run script
 
 NMF
 ```
-"$CMSCRIPTS"/network/rank-profile.pl -g terms_perrank.txt -r rank-summary.txt -s rank_order.txt -t n -diseases diseases.txt -domains domains.txt -motifs motifs.txt
+"$CMSCRIPTS"/network/rank-profile.pl -g terms_perrank.txt -r rank-summary.txt -s rank_order.txt -t n -diseases diseases.txt -domains domains.txt -motifs motifs.txt -b top-rank.txt
 ```
 
 SAFE

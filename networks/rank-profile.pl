@@ -31,6 +31,7 @@ my $motiffile = ''; # motifs associated with each rank
 my $ofile = ''; # GO file mapping names to IDs
 my $rfile = ''; # for NMF and SAFE, file with rank/domain details
 my $sfile = ''; # order for NMF ranks
+my $tfile = ''; # top rank file
 
 if ($#ARGV==0) {
 	print "\nTakes information about each NMF rank or SAFE domain and creates a json\n";
@@ -39,6 +40,7 @@ if ($#ARGV==0) {
 	print "-domains [domains associated with each rank]\n";
 	print "-diseases [diseases associated with each rank (optional)]\n";
 	print "-motifs [motifs associated with each rank (optional)]\n";
+  print "-b [top value for each NMF rank]\n";
   print "-g [GO terms associated with each rank]\n";
 	print "-o [GO file for mapping names to ids, need for SAFE data]\n";
 	print "-r [NMF or SAFE file with rank/domain details]\n";
@@ -69,7 +71,10 @@ if ($#ARGV==0) {
 		} elsif ($ARGV[$i] eq '-s') {
 			$i++;
 			$sfile = $ARGV[$i];
-		} elsif ($ARGV[$i] eq '-t') {
+		} elsif ($ARGV[$i] eq '-b') {
+      $i++;
+      $tfile = $ARGV[$i];
+    } elsif ($ARGV[$i] eq '-t') {
 			$i++;
 			$fileType = $ARGV[$i];
 		} else {
@@ -98,6 +103,23 @@ while(my $row = $domainTSV->getline($domainFH)) {
 	push @{$domains[@{$row}[0]]}, \%currHash;
 }
 close $domainFH;
+
+# read top value for each NMF rank
+my @topRanks;
+if ($fileType eq 'n') {
+  print STDERR "Reading top ranks\n";
+  open my $topRankFH, '<', $tfile or die "Could not open $tfile: $!";
+  my $topRankTSV = Text::CSV_XS->new({
+    sep_char => "\t",
+  });
+  while(my $row = $topRankTSV->getline($topRankFH)) {
+    my $rank = @{$row}[0];
+    my $value = @{$row}[1];
+    $topRanks[$rank] = $value;
+  }
+  close $topRankFH;
+}
+
 
 # reading disease information
 my @diseases;
@@ -167,22 +189,14 @@ $goTSV->getline($goFH); # discard header
 my @goTerms;
 while(my $row = $goTSV->getline($goFH)) {
 	my %currHash;
-	if ($fileType eq 'n') {
-		%currHash = (
-			'genes' => @{$row}[5],
-			'id' => @{$row}[4],
-			'matched' => @{$row}[2],
-			'name' => @{$row}[1],
-			'pvalue' => @{$row}[3],
-		);
-		push @{$goTerms[@{$row}[0]]}, \%currHash;
-	} else {
-		%currHash = (
-			'id' => $goMap{@{$row}[1]},
-			'name' => @{$row}[1],
-		);
-		push @{$goTerms[@{$row}[2]]}, \%currHash;
-	}
+	%currHash = (
+		'genes' => @{$row}[5],
+		'id' => @{$row}[4],
+		'matched' => @{$row}[2],
+		'name' => @{$row}[1],
+		'pvalue' => @{$row}[3],
+	);
+	push @{$goTerms[@{$row}[0]]}, \%currHash;
 }
 close $goFH;
 
@@ -240,6 +254,7 @@ for(my $i = 1; $i < scalar @rankInfo; $i++) {
 	print $outputFH "\t{\n";
 	print $outputFH "\t\t\"$categoryType\": $rank,\n";
 	print $outputFH "\t\t\"color\": \"$colors[$i]\",\n";
+  print $outputFH "\t\t\"max\": $topRanks[$i],\n";
 	print $outputFH "\t\t\"names\": [";
 	for (my $j = 0; $j < scalar @{$rankInfo[$i]{'term'}}; $j++) {
 		print $outputFH "\"$rankInfo[$i]{'term'}[$j]\"";
@@ -334,14 +349,10 @@ for(my $i = 1; $i < scalar @rankInfo; $i++) {
 			print $outputFH "\t\t\t{\n";
 			print $outputFH "\t\t\t\t\"go_name\": \"$currHash{'name'}\",\n";
 			print $outputFH "\t\t\t\t\"go_id\": \"$currHash{'id'}\"";
-			if ($fileType eq 'n') {
-				print $outputFH ",\n";
-				print $outputFH "\t\t\t\t\"go_pvalue\": $currHash{'pvalue'},\n";
-				print $outputFH "\t\t\t\t\"go_matched\": $currHash{'matched'},\n";
-				print $outputFH "\t\t\t\t\"go_genes\": \"$currHash{'genes'}\"\n";
-			} else {
-				print $outputFH "\n";
-			}
+			print $outputFH ",\n";
+			print $outputFH "\t\t\t\t\"go_pvalue\": $currHash{'pvalue'},\n";
+			print $outputFH "\t\t\t\t\"go_matched\": $currHash{'matched'},\n";
+			print $outputFH "\t\t\t\t\"go_genes\": \"$currHash{'genes'}\"\n";
 			print $outputFH "\t\t\t}";
 			if ($j < scalar @{$goTerms[$rank]} - 1) {
 				print $outputFH ",";

@@ -30,8 +30,8 @@ caffeinate node "$CMSCRIPTS"/nmf/nmf.js sc-matrix.csv
 ```
 
 2. Output to `Results` folder with folder for each rank containing:
-* basis.csv (prey information)
-* scores.csv (bait information)
+* `basis.csv`: prey information
+* `scores.csv`: bait information
 
 Notes:
 * l1_ratio parameter – 1 is better for sparse data
@@ -55,10 +55,11 @@ Requires:
 ```
 
 2. Output
-* summary.xlsx (for inspecting rank information)
-* rank_order.txt  (clustering order for ranks, probably won’t use)
-* gene-localizations.txt (for each gene, lists its rank)
-* terms_perrank.txt (list of GO terms and pvalues for each rank);
+* `summary.xlsx`: for inspecting rank information
+* `rank_order.txt`: clustering order for ranks, probably won’t use
+* `gene-localizations.txt`: for each gene, lists its rank
+* `terms_perrank.txt`: list of GO terms and pvalues for each rank
+* `top-rank.txt`: max and median value in each rank
 
 ### Move files for assessment
 
@@ -106,6 +107,9 @@ Use the summary.xlsx from the NMF step to determine the representative term to u
 2. Also need to specify the “displayname” to use for the term on the cell map network, as well as the GO identifier, synonyms and the IC content value. Synonyms can be found in go-basic.obo file. 
 
 3. Name the file rank-summary.txt.
+
+### Output maximum value for each NMF rank
+
 
 ### Assess prey moonlighting
 

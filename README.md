@@ -65,3 +65,6 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 
 11. hierarchy
 * build a localization hierarchy for retrieving parent and child terms
+
+12. Upload related
+* summary of prey values

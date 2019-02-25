@@ -121,7 +121,8 @@ cd "$CMSCRIPTS"/safe/analysis/results/0.6cc_ccns_3.5r/
 ```
 
 2. Output
-* domain-summary.xlsx
+* `domain-summary.xlsx`
+* `terms_perdomain.txt`: list of GO terms and pvalues for each domain
 
 #### Assign representative term for domains
 

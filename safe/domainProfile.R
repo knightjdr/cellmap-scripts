@@ -58,3 +58,17 @@ for(i in 2:noDomains) {
   }
 }
 saveWorkbook(wb, paste(resultsFolder, "domain-summary.xlsx", sep=""), overwrite = TRUE)
+
+#create text file listing all go terms for each rank
+cat('domain\tname\tmatched\tpvalue\tid\tgenes\n', file = paste(resultsFolder, "terms_perdomain.txt", sep=""))
+for(i in 1:(noDomains - 1)) {
+  print(i)
+  for(j in 1:nrow(profiles[[i]])) {
+    cat(i + 1, '\t', sep="",  file = paste(resultsFolder, "terms_perdomain.txt", sep=""), append = TRUE)
+    cat(profiles[[i]]$term.name[j], '\t', sep="", file = paste(resultsFolder, "terms_perdomain.txt", sep=""), append = TRUE)
+    cat(profiles[[i]]$overlap.size[j], '\t', sep="", file = paste(resultsFolder, "terms_perdomain.txt", sep=""), append = TRUE)
+    cat(profiles[[i]]$p.value[j], '\t', sep="", file = paste(resultsFolder, "terms_perdomain.txt", sep=""), append = TRUE)
+    cat(profiles[[i]]$term.id[j], '\t', sep="", file = paste(resultsFolder, "terms_perdomain.txt", sep=""), append = TRUE)
+    cat(profiles[[i]]$intersection[j], '\n', sep="", file = paste(resultsFolder, "terms_perdomain.txt", sep=""), append = TRUE)
+  }
+}
