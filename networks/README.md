@@ -73,3 +73,20 @@ Requires:
 2. Output
 * corr-network-legend.json
 * corr-network.json
+
+### Minify networks for website
+
+#### Manually
+
+1. Minify any network using jq (https://github.com/stedolan/jq)
+```
+jq -c . < newtwork.json > newtwork.min.json
+```
+
+#### Batch
+
+This script will minify all json files in a folder, excluding those endind in .min.json
+
+```
+"$CMSCRIPTS/network/minify-network.pl"
+```
