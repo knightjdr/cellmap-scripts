@@ -13,9 +13,9 @@ use Text::CSV_XS;
 
 # parameters
 my @colors = (
-	"#FFFFFF", "#1CE6FF", "#FF4A46", "#008941", "#006FA6", "#8FB0FF", "#FFB500",
-	"#809693", "#4FC601", "#3B5DFF", "#00C2A0", "#FFAA92", "#D16100", "#7B4F4B",
-	"#A1C299", "#0AA6D8", "#00846F", "#997D87", "#A079BF", "#C0B9B2", "#C2FF99",
+	"#C0B9B2", "#1CE6FF", "#FF4A46", "#008941", "#006FA6", "#8FB0FF", "#FFB500",
+  "#809693", "#4FC601", "#3B5DFF", "#00C2A0", "#FFAA92", "#D16100", "#7B4F4B",
+  "#A1C299", "#0AA6D8", "#00846F", "#997D87", "#A079BF",
 	"#00489C", "#0CBD66", "#EEC3FF", "#456D75", "#B77B68", "#7A87A1", "#788D66",
 	"#885578", "#FAD09F", "#FF8A9A", "#BEC459", "#456648", "#0086ED", "#886F4C",
 	"#B4A8BD", "#00A6AA", "#636375", "#A3C8C9", "#FF913F", "#938A81", "#00FECF",
@@ -51,6 +51,7 @@ my $fileType = 'n';
 
 # command line parameters
 my $afile = ''; # annotations matrix
+my $colorIndex = 0; # index to start from in colors array
 my $gfile = ''; # rank assigned to each localization
 my $nfile = ''; # network in .cyjs format
 my $outputPrefix = 'corr'; # prefix for output files
@@ -61,6 +62,7 @@ if($#ARGV==0) {
 	print "\tCreates a network for the cell map.\n";
 	print "\nusage:\n $0\n";
 	print "-a [annotations matrix]\n";
+  print "-c [starting index in color array]\n";
   print "-g [rank associated with each node]\n";
 	print "-n [network in .cyjs format]\n";
   print "-o [output prefix]\n";
@@ -74,7 +76,10 @@ if($#ARGV==0) {
 		if($ARGV[$i] eq '-a') {
 			$i++;
 			$afile = $ARGV[$i];
-		} elsif($ARGV[$i] eq '-g') {
+		} elsif ($ARGV[$i] eq '-c') {
+      $i++;
+      $colorIndex = $ARGV[$i];
+    } elsif($ARGV[$i] eq '-g') {
 			$i++;
 			$gfile = $ARGV[$i];
 		} elsif($ARGV[$i] eq '-n') {
@@ -267,7 +272,7 @@ for(my $i = 0; $i < scalar @nodeArray; $i++) {
 	print $networkFH "\"y\": $y,\n\t\t\t";
 	if (exists $categories{$currNode{'name'}}) {
 		print $networkFH "\"domain\": $categories{$currNode{'name'}}{'domain'},\n\t\t\t";
-		print $networkFH "\"color\": \"$colors[$categories{$currNode{'name'}}{'domain'}]\",\n\t\t\t";
+		print $networkFH "\"color\": \"$colors[$colorIndex + $categories{$currNode{'name'}}{'domain'} - 1]\",\n\t\t\t";
 		print $networkFH "\"score\": $categories{$currNode{'name'}}{'score'},\n\t\t\t";
 		print $networkFH "\"bait\": $categories{$currNode{'name'}}{'bait'},\n\t\t\t";
     print $networkFH "\"known_name\": $categories{$currNode{'name'}}{'known_name'},\n\t\t\t";
@@ -310,7 +315,7 @@ print $networkFH "\t\"domains\": [\n";
 for(my $i = 1; $i < scalar @rankNames; $i++) {
 	print $networkFH "\t\t{\n\t\t\t";
 	print $networkFH "\"domain\": $i,\n\t\t\t";
-	print $networkFH "\"color\": \"$colors[$i]\",\n\t\t\t";
+	print $networkFH "\"color\": \"$colors[$colorIndex + $i - 1]\",\n\t\t\t";
 	print $networkFH "\"terms\": [";
 	for(my $j = 0; $j < scalar(@{$rankTerms[$i]}); $j++) {
 		print $networkFH "\"$rankTerms[$i][$j]\"";
@@ -359,7 +364,7 @@ print $networkLegendFH "{\n\t\"domains\": [\n";
 for(my $i = 1; $i < scalar @rankNames; $i++) {
 	print $networkLegendFH "\t\t{\n\t\t\t";
 	print $networkLegendFH "\"domain\": $i,\n\t\t\t";
-	print $networkLegendFH "\"color\": \"$colors[$i]\",\n\t\t\t";
+	print $networkLegendFH "\"color\": \"$colors[$colorIndex + $i - 1]\",\n\t\t\t";
 	print $networkLegendFH "\"names\": [";
 	for(my $j = 0; $j < scalar @{$rankNames[$i]}; $j++) {
 		print $networkLegendFH "\"$rankNames[$i][$j]\"";

@@ -11,9 +11,9 @@ use Text::CSV_XS;
 # parameters
 my $fileType = 'n';
 my @colors = (
-	"#FFFFFF", "#1CE6FF", "#FF4A46", "#008941", "#006FA6", "#8FB0FF", "#FFB500",
+	"#C0B9B2", "#1CE6FF", "#FF4A46", "#008941", "#006FA6", "#8FB0FF", "#FFB500",
 	"#809693", "#4FC601", "#3B5DFF", "#00C2A0", "#FFAA92", "#D16100", "#7B4F4B",
-	"#A1C299", "#0AA6D8", "#00846F", "#997D87", "#A079BF", "#C0B9B2", "#C2FF99",
+	"#A1C299", "#0AA6D8", "#00846F", "#997D87", "#A079BF",
 	"#00489C", "#0CBD66", "#EEC3FF", "#456D75", "#B77B68", "#7A87A1", "#788D66",
 	"#885578", "#FAD09F", "#FF8A9A", "#BEC459", "#456648", "#0086ED", "#886F4C",
 	"#B4A8BD", "#00A6AA", "#636375", "#A3C8C9", "#FF913F", "#938A81", "#00FECF",
@@ -24,6 +24,7 @@ my @colors = (
 );
 
 # command line parameters
+my $colorIndex = 0; # index to start from in colors array
 my $dfile = ''; # domains associated with each rank
 my $disfile = ''; # diseases associated with each rank
 my $gfile = ''; # GO terms associated with each rank
@@ -41,6 +42,7 @@ if ($#ARGV==0) {
 	print "-diseases [diseases associated with each rank (optional)]\n";
 	print "-motifs [motifs associated with each rank (optional)]\n";
   print "-b [top value for each NMF rank]\n";
+  print "-c [starting index in color array]\n";
   print "-g [GO terms associated with each rank]\n";
 	print "-o [GO file for mapping names to ids, need for SAFE data]\n";
 	print "-r [NMF or SAFE file with rank/domain details]\n";
@@ -50,7 +52,10 @@ if ($#ARGV==0) {
 } else {
 	my $i = 0;
 	while($i <= $#ARGV) {
-		if ($ARGV[$i] eq '-domains') {
+		if ($ARGV[$i] eq '-c') {
+      $i++;
+      $colorIndex = $ARGV[$i];
+    } elsif ($ARGV[$i] eq '-domains') {
 			$i++;
 			$dfile = $ARGV[$i];
 		} elsif($ARGV[$i] eq '-diseases') {
@@ -78,7 +83,7 @@ if ($#ARGV==0) {
 			$i++;
 			$fileType = $ARGV[$i];
 		} else {
-			die "\nIncorrect program usage\n\n";
+			die "\nIncorrect program usage. Unknown flag: $ARGV[$i]\n\n";
 		}
 		$i++;
 	}
@@ -253,7 +258,7 @@ for(my $i = 1; $i < scalar @rankInfo; $i++) {
 	my $rank = $i;
 	print $outputFH "\t{\n";
 	print $outputFH "\t\t\"$categoryType\": $rank,\n";
-	print $outputFH "\t\t\"color\": \"$colors[$i]\",\n";
+	print $outputFH "\t\t\"color\": \"$colors[$colorIndex + $i - 1]\",\n";
   print $outputFH "\t\t\"max\": $topRanks[$i],\n";
 	print $outputFH "\t\t\"names\": [";
 	for (my $j = 0; $j < scalar @{$rankInfo[$i]{'term'}}; $j++) {

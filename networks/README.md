@@ -19,17 +19,18 @@ Requires:
   * a file with top value for each rank (top-rank.txt)
 * SAFE
   * a map of go terms to ids (go-map.txt), produced from GO formatting step.
+* Starting index for color array (should be set to 0 for SAFE and 1 for NMF)
 
 1. Run script
 
 NMF
 ```
-"$CMSCRIPTS"/network/rank-profile.pl -g terms_perrank.txt -r rank-summary.txt -s rank_order.txt -t n -diseases diseases.txt -domains domains.txt -motifs motifs.txt -b top-rank.txt
+"$CMSCRIPTS"/network/rank-profile.pl -g terms_perrank.txt -r rank-summary.txt -s rank_order.txt -t n -diseases diseases.txt -domains domains.txt -motifs motifs.txt -b top-rank.txt -c 1
 ```
 
 SAFE
 ```
-"$CMSCRIPTS"/network/rank-profile.pl -g terms_perrank.txt -o go-map.txt -r rank-summary.txt -t  -diseases diseases.txt -domains domains.txt -motifs motifs.txt
+"$CMSCRIPTS"/network/rank-profile.pl -g terms_perrank.txt -o go-map.txt -r rank-summary.txt -t s -diseases diseases.txt -domains domains.txt -motifs motifs.txt -c 0
 ```
 
 2. Output
@@ -64,10 +65,12 @@ Requires:
 * ranks.json file
 * SAINT file (to get list of baits)
 * annotations matrix used for SAFE (make sure this matches GO namespace of network). This file indicates whether a GO term is known or not for each gene (use this as opposed to goa-human.gaf because it will contain all parents as well as the GO terms themselves)
+* Starting index for color array (should be set to 0 for SAFE and 1 for NMF)
+* prefix for output file (nmf-corr or safe-corr-0.6, etc)
 
 1. Run script
 ```
-"$CMSCRIPTS"/network/network-corr.pl -a cc_annotations.txt -g gene-localization.txt -n tsne_nmf.txt -r ranks.json -s saint.txt -t n
+"$CMSCRIPTS"/network/network-corr.pl -a cc_annotations.txt -g gene-localization.txt -n nmf.cyjs -r ranks.json -s saint.txt -t n -c 1 -o "nmf-corr"
 ```
 
 2. Output
