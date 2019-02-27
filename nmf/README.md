@@ -108,8 +108,33 @@ Use the summary.xlsx from the NMF step to determine the representative term to u
 
 3. Name the file rank-summary.txt.
 
-### Output maximum value for each NMF rank
+### Recovery of known localizations
 
+Calculate the recovery of known localizations for each NMF score. This script can be run a second time with an explicit threshold to generate a file with a boolean indicating if a prey above (inclusive) the threshold or not.
+
+Requires:
+* GO annotations, (goa_human.gaf without header)
+* List of children for each GO term
+* Assigned NMF rank for each prey (gene-localizations.txt)
+* Rank details (rank-summary.txt)
+* GO namespace, default cc, one of bp, cc or mf
+* Threshold below which preys are considered low confidence (default 0)
+
+1. Run script
+```
+"$CMSCRIPTS"/nmf/nmf-recovery.pl -c go-children.txt -g gene-localizations.txt -l goa_human.gaf -n cc -r rank-summary.txt -t 0.15
+```
+
+2. Output
+* `nmf-recovery.txt`:
+  * for each nmf bin lists the total number of preys in that bin, how many have known localizations and the fraction
+  * there are three bin assessments: increments of 0.01, 0.05 and 0.1
+  * each bin is inclusive for the lower threshold and exclusive of the upper
+  * anything with an NMF value over 1 is recorded as 1
+* `prey-confidence.txt`:
+  * gene-localizations.txt file
+  * column for whether localization is known
+  * column for whether score is confident or not
 
 ### Assess prey moonlighting
 
@@ -125,6 +150,22 @@ Requires:
 
 2. Output
 * moonlighting.txt
+
+### List top three categories for each prey
+
+For each prey output primary, secondary and tertiary rank, along with the score and the difference between the primary/secondary and primary/tertiary.
+
+Requires:
+* basis.csv matrix
+* NMF summary file (rank-summary.txt)
+
+1. Run script
+```
+"$CMSCRIPTS"/nmf/top3-ranks.pl -b basis.csv -r rank-summary.txt
+```
+
+2. Output
+* `top3-ranks.txt`
 
 ### Subset prey matrix based on moonlighting
 

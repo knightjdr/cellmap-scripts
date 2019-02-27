@@ -45,7 +45,9 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * run NMF in batch
 * summarize NMF ranks by GO terms
 * assess NMF ranks
+* assess prey localizaiton at varying NMF thresholds
 * assess prey moonlighting
+* report top three localizations (ranks) per prey
 * generate heat map for viewing NMF matrices
 * generate Cytoscape network based on correlation
 * create t-SNE map from basis matrix
@@ -67,4 +69,4 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * build a localization hierarchy for retrieving parent and child terms
 
 12. Upload related
-* summary of prey values
+* summary of prey values for evaluating localizations
