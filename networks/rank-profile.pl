@@ -259,7 +259,9 @@ for(my $i = 1; $i < scalar @rankInfo; $i++) {
 	print $outputFH "\t{\n";
 	print $outputFH "\t\t\"$categoryType\": $rank,\n";
 	print $outputFH "\t\t\"color\": \"$colors[$colorIndex + $i - 1]\",\n";
-  print $outputFH "\t\t\"max\": $topRanks[$i],\n";
+  if ($fileType eq 'n') {
+    print $outputFH "\t\t\"max\": $topRanks[$i],\n";
+  }
 	print $outputFH "\t\t\"names\": [";
 	for (my $j = 0; $j < scalar @{$rankInfo[$i]{'term'}}; $j++) {
 		print $outputFH "\"$rankInfo[$i]{'term'}[$j]\"";

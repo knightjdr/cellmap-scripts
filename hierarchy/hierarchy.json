@@ -67,7 +67,7 @@
             "name": "autophagosome"
 			 },
           {
-            "name": "clathrin-coated pit"
+            "name": "clathrin coat"
           },
           {
             "name": "endosome",
@@ -165,11 +165,17 @@
         "children": [
           {
             "name": "nuclear envelope",
-            "children": [
+				"children": [
               {
-                "name": "nuclear pore"
+                "name": "nuclear membrane",
+					 "children": [
+						 {
+							 "name": "nuclear pore"
+						 }
+					 ]
               }
             ]
+            
           }
         ]
       }
@@ -249,7 +255,8 @@
    				   ]
 					},
 					{
-					  "name": "microtubule"
+					  "displayname": "microtubule",
+					  "name": "microtubule cytoskeleton"
 					}
 				 ]
   			  },
@@ -305,6 +312,9 @@
 					  "children": [
 						  {
 							  "name": "cajal body"
+						  },
+						  {
+							  "name": "paraspeckles"
 						  }
 						]
 					},
@@ -323,7 +333,8 @@
             ]
           },
           {
-            "name": "spliceosome"
+				"displayname": "spliceosome",
+            "name": "spliceosome complex"
           }
         ]
       }

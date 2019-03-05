@@ -11,7 +11,7 @@ Requires:
  * SAFE: node_properites_annotation-highest.txt which lists the best domain for each gene. Need to remove top 4 lines from this file after SAFE and only keep the columns 1 + 3.
 * rank/domain details (optional: if this file is included, each page on the spreadsheet will show the rank name to make life easier, but if absent the tab number will represent the rank)
   * NMF: rank-summary.txt
-  * SAFE: safe_summary.txt respectively
+  * SAFE: domain-summary.txt respectively
 * type of analysis (default n; n for NMF or s for SAFE)
 
 1. Run script

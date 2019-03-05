@@ -30,7 +30,7 @@ NMF
 
 SAFE
 ```
-"$CMSCRIPTS"/network/rank-profile.pl -g terms_perrank.txt -o go-map.txt -r rank-summary.txt -t s -diseases diseases.txt -domains domains.txt -motifs motifs.txt -c 0
+"$CMSCRIPTS"/network/rank-profile.pl -g terms_perrank.txt -o go-map.txt -r domain-summary.txt -t s -diseases diseases.txt -domains domains.txt -motifs motifs.txt -c 0
 ```
 
 2. Output
@@ -88,8 +88,8 @@ jq -c . < newtwork.json > newtwork.min.json
 
 #### Batch
 
-This script will minify all json files in a folder, excluding those endind in .min.json
+This script will minify all json files in a folder, excluding those ending in .min.json
 
 ```
-"$CMSCRIPTS/network/minify-network.pl"
+"$CMSCRIPTS"/network/minify-network.pl
 ```
