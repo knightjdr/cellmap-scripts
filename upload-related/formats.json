@@ -1,0 +1,36 @@
+[
+	{
+		"fileType": "SAINT",
+		"bait": ["bait", "baits"],
+		"prey": ["preygene", "prey", "preygenes", "preys"],
+		"abundance": ["avgspec", "avgintensity"],
+		"ctrlavailable": [1, 1],
+		"score": ["bfdr", "fdr", "saintscore", "avgp", "maxp"],
+		"scoredir": ["a", "a", "b", "b", "b"],
+		"ctrl": ["ctrlcounts", "ctrlintensity", "avgctrlintensity"],
+		"filter": [0.01, 0.01, 0.9, 0.9, 0.9]
+	},
+	{
+		"fileType": "CRAPome",
+		"bait": ["bait", "baitgene"],
+		"prey": ["prey", "preygene"],
+		"abundance": ["avgspc", "avg. spc", "avgint", "avg. int"],
+		"ctrlavailable": [1, 1, 1, 1],
+		"score": ["bfdr", "fdr", "sp", "fca", "fcb", "wd", "is"],
+		"scoredir": ["a", "a", "b", "b", "b", "b", "b"],
+		"ctrl": ["user controls (spc or intensities)", "crap controls (spc)", "crap controls (int)"],
+		"filter": [0.01, 0.01, 0.9, 0, 0, 0, 0]
+	},
+	{
+		"fileType": "Generic",
+		"bait": ["bait", "baits", "baitgene"],
+		"prey": ["preygene", "prey", "preygenes", "preys"],
+		"abundance": ["avgspec", "avgintensity", "avg. spc", "avg. int", "value"],
+		"ctrlavailable": [1, 1, 1, 1, 1],
+		"score": ["bfdr", "fdr", "saintscore", "score", "sp", "fca", "fcb", "wd", "is", "avgp", "maxp"],
+		"scoredir": ["a", "a", "b", "a", "b", "b", "b", "b", "b", "b", "b"],
+		"ctrl": ["ctrlcounts", "ctrlintensity", "avgctrlintensity", "user controls (spc or intensities)", "crap controls (spc)", "crap controls (int)"],
+		"filter": [0.01, 0.01, 0.9, 0, 0.9, 0, 0, 0, 0, 0.9, 0.9]
+	}
+]
+
