@@ -52,21 +52,27 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * generate Cytoscape network based on correlation
 * create t-SNE map from basis matrix
 
-8. enrichments
+8. localization assessments
+* assess NMF, SAFE and published dataset localizations against GO
+* compare NMF and SAFE for overlap
+* calculate the recovery of known terms per bait and avgspec
+* assess primary and secondary NMF localizations
+
+9. enrichments
 * enriched domains for NMF or SAFE compartments
 * enriched motifs for NMF or SAFE compartments
 
-9. organelle assessments
+10. organelle assessments
 * assess bait overlap for ER
 * assess bait overlap for Mito
 * assess bait overlap for ER-mito
 
-10. networks (for website)
+11. networks (for website)
 * create NMF tSNE network
 * create correlation networks for NMF or SAFE
 
-11. hierarchy
+12. hierarchy
 * build a localization hierarchy for retrieving parent and child terms
 
-12. Upload related
+13. Upload related
 * summary of prey values for evaluating localizations

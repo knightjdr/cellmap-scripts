@@ -22,7 +22,7 @@ Requires:
 ```
 
 2.	Output:
-* fraction-recovered.txt
+* `fraction-recovered.txt`
 
 ### Bait assessment
 
@@ -71,7 +71,7 @@ Requires
 ```
 
 2.	Output:
-* bait-level-recovery_top25_lengthAdjusted.txt
+* `bait-level-recovery_top25_lengthAdjusted.txt`
 
 ### Bait assessment, top 25 preys by specificity
 
@@ -93,4 +93,4 @@ Requires
 ```
 
 2.	Output:
-* bait-level-recovery_top25_specificity.txt
+* `bait-level-recovery_top25_specificity.txt`
