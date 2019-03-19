@@ -64,6 +64,8 @@ Requires
 * SAINT file
 * FDR, default 0.01
 * Number of top preys to use, default all
+* distance value (jaccard or correlation)
+* correlation method if needed (pearson, spearman or kendall)
 
 1. Run script. If the third argument is a number > 0, only that number of preys for each bait will be used for the enrichment.
 ```
@@ -71,7 +73,7 @@ Requires
 ```
 
 2. Output
-* bait-overlap.pdf or bait-overlap_topX.pdf is a heat map of the distances, clustered using the Euclidean distance and complete linkage method
+* bait-overlap.pdf or bait-overlap-topX.pdf is a heat map of the distances, clustered using the Euclidean distance and complete linkage method
 * bait-overlap.txt contains the Jaccard index for each bait-bait pair
 
 ### Expected compartments
