@@ -48,6 +48,19 @@ Requires:
 
 3. Download ontology (go-basic.obo) from http://www.geneontology.org/page/download-ontology
 
+#### Create a file without HPA annotations
+
+Requires:
+* `goa_human.gaf` without header lines
+
+1. Run script
+```
+"$CMSCRIPTS"/data-sets/go-hpa.pl
+```
+
+2. Output
+* `goa_human_nohpa.gaf`
+
 #### Get child terms
 
 Requires:
@@ -60,13 +73,13 @@ Requires:
 ```
 
 2. Output
-* go-terms.txt list of all terms in specified namespace
-* go-children.txt lists all children for each term
+* `go-terms.txt` list of all terms in specified namespace
+* `go-children.txt` lists all children for each term
 
 #### Map terms to IDs
 
 Requires:
-* go-basic.obo
+* `go-basic.obo`
 * GO namespace, default C (one of C, F or P)
 
 1. Run script

@@ -6,8 +6,6 @@ use strict;
 use warnings;
 
 # libraries
-use Data::Dumper; # use like this to print an array print Dumper \@array;
-
 use Text::CSV_XS;
 
 # paramaters

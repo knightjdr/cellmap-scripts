@@ -55,6 +55,7 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 8. localization assessments
 * assess NMF, SAFE and published dataset localizations against GO
 * compare NMF and SAFE for overlap
+* compare two datasets
 * calculate the recovery of known terms per bait and avgspec
 * assess primary and secondary NMF localizations
 

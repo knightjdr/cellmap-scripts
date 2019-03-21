@@ -6,11 +6,15 @@ use strict;
 use warnings;
 
 # libraries
+use FindBin;
+use lib "$FindBin::RealBin/../lib"; 
+
 use Array::Utils qw(:all);
+use Localization::ParseSummary qw(parseSummary);
 use Text::CSV_XS;
 
 # command line parameters
-my $gfile = ''; # file with lost of children per GO term
+my $gfile = ''; # file with list of children per GO term
 my $nfile = ''; # nmf summary file
 my $nmfAssignedFile = ''; # file with nmf rank assigned to each gene
 my $sfile = ''; # safe summary file
@@ -50,17 +54,19 @@ if ($#ARGV==0) {
 	}
 }
 
-# get child terms for each GO term
-print STDOUT "Reading hierarchy file\n";
-open my $gochildrenFH, '<', $gfile or die "Could not open $gfile: $!";
-my $gochildrenTSV = Text::CSV_XS->new({
+my %tsvParams = (
 	binary => 1,
 	sep_char => "\t",
 	quote_char => undef,
 	escape_char => undef,
 	allow_loose_quotes => 1,
 	allow_loose_escapes => 1,
-});
+);
+
+# get child terms for each GO term
+print STDOUT "Reading hierarchy file\n";
+open my $gochildrenFH, '<', $gfile or die "Could not open $gfile: $!";
+my $gochildrenTSV = Text::CSV_XS->new(\%tsvParams);
 my %children;
 while(my $row = $gochildrenTSV->getline($gochildrenFH)) {
 	@{$children{@{$row}[0]}} = split ',', @{$row}[1];
@@ -68,58 +74,20 @@ while(my $row = $gochildrenTSV->getline($gochildrenFH)) {
 close $gochildrenFH;
 
 # read NMF summary terms
-my $noRanks = 0;
-my %rankToGo;
 print STDOUT "Reading NMF details\n";
-open my $nmfFH, '<', $nfile or die "Could not open $nfile: $!";
-my $nmfTSV = Text::CSV_XS->new({
-  binary => 1,
-  sep_char => "\t",
-  escape_char => undef,
-  allow_loose_escapes => 1,
-});
-$nmfTSV->getline($nmfFH); # discard header
-while(my $row = $nmfTSV->getline($nmfFH)) {
-  $noRanks++;
-  my $idString = @{$row}[3];
-  $idString =~ s/[\[\]"]//g;
-  my $termString = @{$row}[1];
-  $termString =~ s/[\[\]"]//g;
-  @{$rankToGo{'term'}[@{$row}[0]]} = split /, /, $termString;
-	@{$rankToGo{'go'}[@{$row}[0]]} = split /, /, $idString;
-}
-close $nmfFH;
+my ($noRanks, $nmfMapToGo) = parseSummary($nfile);
+my %rankToGo = %{$nmfMapToGo};
 
 # read SAFE summary terms
-my $noDomains = 0;
-my %domainToGo;
 print STDOUT "Reading SAFE details\n";
-open my $safeFH, '<', $sfile or die "Could not open $sfile: $!";
-my $safeTSV = Text::CSV_XS->new({
-  binary => 1,
-  sep_char => "\t",
-  escape_char => undef,
-  allow_loose_escapes => 1,
-});
-$safeTSV->getline($safeFH); # discard header
-while(my $row = $safeTSV->getline($safeFH)) {
-  $noDomains++;
-  my $idString = @{$row}[3];
-  $idString =~ s/[\[\]"]//g;
-  my $termString = @{$row}[1];
-  $termString =~ s/[\[\]"]//g;
-  @{$domainToGo{'term'}[@{$row}[0]]} = split /, /, $termString;
-	@{$domainToGo{'go'}[@{$row}[0]]} = split /, /, $idString;
-}
-close $safeFH;
+my ($noDomains, $safeMapToGo) = parseSummary($sfile);
+my %domainToGo = %{$safeMapToGo};
 
 # read assgined NMF ranks
 print STDOUT "Reading assigned NMF gene localizations\n";
 my %assignedNMFLocalization;
 open my $assignedNmfFH, '<', $nmfAssignedFile or die "Could not open $nmfAssignedFile: $!";
-my $nmfAssignedTSV = Text::CSV_XS->new({
-  sep_char => "\t",
-});
+my $nmfAssignedTSV = Text::CSV_XS->new(\%tsvParams);
 $nmfAssignedTSV->getline($assignedNmfFH); # discard header
 while(my $row = $nmfAssignedTSV->getline($assignedNmfFH)) {
   $assignedNMFLocalization{@{$row}[0]} = @{$row}[1];
@@ -130,14 +98,7 @@ close $assignedNmfFH;
 print STDOUT "Reading assigned SAFE gene localizations\n";
 my %assignedSAFELocalization;
 open my $assignedSafeFH, '<', $safeAssignedFile or die "Could not open $safeAssignedFile: $!";
-my $safeAssignedTSV = Text::CSV_XS->new({
-  binary => 1,
-  sep_char => "\t",
-  quote_char => undef,
-  escape_char => undef,
-  allow_loose_quotes => 1,
-  allow_loose_escapes => 1,
-});
+my $safeAssignedTSV = Text::CSV_XS->new(\%tsvParams);
 $safeAssignedTSV->getline($assignedSafeFH); # discard header
 while(my $row = $safeAssignedTSV->getline($assignedSafeFH)) {
   $assignedSAFELocalization{@{$row}[0]} = @{$row}[2];
@@ -228,15 +189,21 @@ close $outputFH;
 # print summary
 my $nmfGenes = scalar (keys %assignedNMFLocalization);
 my $safeGenes = scalar (keys %assignedSAFELocalization);
-my $totalGenes;
-if ($nmfGenes > $safeGenes) {
-  $totalGenes = $nmfGenes;
-} else {
-  $totalGenes = $safeGenes;
-}
 my $nmfFraction = sprintf "%.2f", 100 * $nmfMatches / $nmfGenes;
 my $safeFraction = sprintf "%.2f", 100 * $safeMatches / $safeGenes;
-my $totalFraction = sprintf "%.2f", 100 * $totalMatches / $totalGenes;
 print STDOUT "NMF: $nmfMatches of $nmfGenes, $nmfFraction\n";
 print STDOUT "SAFE: $safeMatches of $safeGenes, $safeFraction\n";
+
+# Determine the total number of genes to use for determining the overlap. This should only include
+# genes with predictions in both datasets
+my $totalGenes;
+foreach my $gene (keys %assignedNMFLocalization) {
+  if (
+    exists $assignedSAFELocalization{$gene}
+    && $assignedSAFELocalization{$gene} != 1
+  ) {
+    $totalGenes++;
+  }
+}
+my $totalFraction = sprintf "%.2f", 100 * $totalMatches / $totalGenes;
 print STDOUT "Total: $totalMatches of $totalGenes, $totalFraction\n";

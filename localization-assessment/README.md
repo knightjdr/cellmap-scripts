@@ -27,7 +27,7 @@ Requries:
 
  1. Run script
  ```
- "$CMSCRIPTS"/localization-assessment/localization-assessment.pl -h go-children.txt -i information-content.txt -l goa_human.gaf -g gene-localizations.txt -r rank-details.txt -t n -o 'nmf-'
+ "$CMSCRIPTS"/localization-assessment/localization-assessment.pl -h go-children.txt -i information-content.txt -l goa_human.gaf -g gene-localizations.txt -r rank-summary.txt -t n -o 'nmf-'
  ```
 
  2.	Output:
@@ -85,6 +85,35 @@ Requries:
 2. Output:
 * `nmf-v-safe.txt`: for each gene it lists the NMF and SAFE compartment and whether they overlap
 * outputs to STDOUT whether NMF term matches SAFE (or is a child of), SAFE term matches NMF or either
+
+### Compare datasets
+
+* Compare two datasets for overlap/consistency in localization
+* Two localizations are considered a match if they are the same or one is a child of another
+* If there are multiple localizations, only one has to match
+
+Requires:
+* file with list of children for every GO term (`go-children.txt`)
+* GO localization file (`goa_human.gaf`: should not have header lines or HPA annotations)
+* map of GO ID to term (`go-map.txt`)
+* file with first dataset
+* file with second dataset
+* first dataset type (n = NMF, s = SAFE, h = HPA, o = Other)
+* second dataset type
+* output file prefix (default is `comparison`)
+* NMF
+  * `nmf_summary.txt`
+* SAFE
+  * `safe_summary.txt`
+
+1. Run script
+```
+"$CMSCRIPTS"/localization-assessment/dataset-compare.pl -g go-children.txt -l goa_human.gaf -m go-map.txt -f1 gene-localizations.txt -f2 node_properties_annotation-highest.txt -f1t n -f2t s -n rank-summary.txt -s domain-summary.txt -o "nmf-safe"
+```
+
+2. Output
+* `nmf-safe.txt` (or whatever the prefix is): for each gene in both datasets, list localization, if they match and if it's known
+* STDOUT: overlap statistics
 
 ### Evidence
 
