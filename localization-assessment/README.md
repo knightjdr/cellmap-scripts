@@ -99,6 +99,8 @@ Requires:
 * file with first dataset
 * file with second dataset
 * first dataset type (n = NMF, s = SAFE, h = HPA, o = Other)
+  * the other dataset files need to have three columns, with gene, localization and GO term(s)
+  * the GO terms can be a semi-colon delimited string for multiple
 * second dataset type
 * output file prefix (default is `comparison`)
 * NMF

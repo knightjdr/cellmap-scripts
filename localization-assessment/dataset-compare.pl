@@ -112,7 +112,9 @@ sub mapIDs {
   my @mapped;
 
   foreach my $id (@ids) {
-    push @mapped, $map{$id}
+    if (exists $map{$id}) {
+      push @mapped, $map{$id}
+    }
   }
 
   return join '; ', @mapped;
@@ -126,7 +128,14 @@ sub parseLocalization {
 
   my @localizations;
   if ($fileType eq 'n') {
-    @localizations = @{$ranks{'go'}[$localization]};
+    # For NMF, we want to treat ranks with missing GO terms as an actual localization
+    # so that they are not excluded when comparing two datasets. Use a dummy GO term for these.
+    my @goIDs = @{$ranks{'go'}[$localization]};
+    if (scalar @goIDs == 0) {
+      @localizations = ('GO:XXXXXXX');
+    } else {
+      @localizations = @goIDs;
+    }
   } elsif ($fileType eq 's'){
     @localizations = @{$domains{'go'}[$localization]};
   } elsif ($fileType eq 'h'){
@@ -137,7 +146,9 @@ sub parseLocalization {
         push @localizations, $goID;
       }
     }
-  }else {}
+  } else {
+    @localizations = split ';', $localization;
+  }
 
   return \@localizations;
 }
@@ -162,7 +173,7 @@ sub readLocalizations {
     $localizationColumn = 2;
   } else {
     $geneColumn = 0;
-    $localizationColumn = 1;
+    $localizationColumn = 2;
   }
 
   my %localizations;
@@ -305,11 +316,12 @@ foreach my $gene (sort {lc $a cmp lc $b} keys %localizationsFirst) {
 }
 close $outputFH;
 
+open my $summaryFH, '>', $outPrefix . '-summary.txt';
 my $frac = sprintf "%.3f", $matches / $totalGenes;
-print STDOUT "Matches: $matches / $totalGenes ($frac)\n";
+print $summaryFH "Matches: $matches / $totalGenes ($frac)\n";
 
 my $unmatched = $totalGenes - $matches;
 my $unknownFracFirst = sprintf "%.3f", $unmatchedKnownFirst / $unmatched;
 my $unknownFracSecond = sprintf "%.3f", $unmatchedKnownSecond / $unmatched;
-print STDOUT "Unmatched genes that have known localizations in dataset 1: $unmatchedKnownFirst / $unmatched ($unknownFracFirst)\n";
-print STDOUT "Unmatched genes that have known localizations in dataset 2: $unmatchedKnownSecond / $unmatched ($unknownFracSecond)\n";
+print $summaryFH "Unmatched genes that have known localizations in dataset 1: $unmatchedKnownFirst / $unmatched ($unknownFracFirst)\n";
+print $summaryFH "Unmatched genes that have known localizations in dataset 2: $unmatchedKnownSecond / $unmatched ($unknownFracSecond)\n";
