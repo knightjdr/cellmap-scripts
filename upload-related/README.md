@@ -18,7 +18,7 @@ Requires:
 * `crap-list.txt`: list of crap proteins
 * `crap-details.txt`: shows the number of occurrences and the median AvgSpec after control subtraction
 
-### Enirched GO terms per bait
+### Enriched GO terms per bait
 
 Determine enriched GO terms per bait for localization tab on bait report
 
