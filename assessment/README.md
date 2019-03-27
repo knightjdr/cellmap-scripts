@@ -123,3 +123,23 @@ Requires:
 2. Output
 * baits-asprey.tsv (open at ProHits-viz) will be clustered and values correspond to AvgSpec – control average
 * output reciprocal interactions to R console
+
+### Overlap with BioPlex
+
+Calculates the number of interactions we see and compares with BioPlex
+
+Requires:
+* SAINT file
+* BioPlex file from http://bioplex.hms.harvard.edu/downloadInteractions.php
+* FDR cutoff for our dataset (default 0.01)
+* minimum interactions a prey must have for BioPlex (default 1)
+
+1. Run script
+```
+"$CMSCRIPTS"/assessment/bioplex-overlap.pl -b bioplex.tsv -s saint.txt -f 0.01 -m 1
+```
+
+2. Output to STDOUT
+* Number of BioPlex interactions
+* Number of SAINT interactions
+* Overlap

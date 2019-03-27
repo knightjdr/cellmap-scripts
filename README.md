@@ -19,6 +19,7 @@ Setup up an ENV variable `CMSCRIPTS` pointing to this repo. Run any script as `"
 * prey overlap between baits using the Jaccard index
 * bait localization summary (from known information)
 * baits recovered as preys
+* overlap with BioPlex
 
 3. interaction-assessment
 * known interaction recovery per FDR

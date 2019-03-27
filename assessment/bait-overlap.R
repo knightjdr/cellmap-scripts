@@ -133,7 +133,7 @@ for(i in 1:length(baits)) {
 }
 
 # output table
-outfilePrefix = paste('bait-overlap-', comparisonType)
+outfilePrefix = paste('bait-overlap-', comparisonType, sep='')
 if (comparisonType == "correlation") {
   outfilePrefix = paste(outfilePrefix, '-', corrMethod, sep='')
 } 

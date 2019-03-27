@@ -1,6 +1,6 @@
 ## Hierarchy
 
-Annotate an organelle hierarchy. The `hierarchy.json` file contains a hierarchy of parent and child GO terms. Terms were selected to coincide with GO whenever possible, the main exceptions being the large-scale groupings, such as “membrane-bound”, etc. For each term there is the complete GO name specified by “name” and possible a shorter display name. The script will add the GO ID and two Booleans indicating if the term was seen by NMF or SAFE.
+Annotate an organelle hierarchy. The `hierarchy.json` file contains a hierarchy of parent and child terms. Terms were selected to coincide with GO whenever possible, the main exceptions being the large-scale groupings, such as “membrane-bound”, etc. For each term there is the complete GO name specified by “name” and possible a shorter display name. The script will add the GO ID and two Booleans indicating if the term was seen by NMF or SAFE.
 
 Requries:
 * GO term-id map (go-map.txt)
