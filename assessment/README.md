@@ -139,7 +139,12 @@ Requires:
 "$CMSCRIPTS"/assessment/bioplex-overlap.pl -b bioplex.tsv -s saint.txt -f 0.01 -m 1
 ```
 
-2. Output to STDOUT
-* Number of BioPlex interactions
-* Number of SAINT interactions
-* Overlap
+2. Output
+* STDOUT
+  * Number of BioPlex interactions
+  * Number of SAINT interactions
+  * Overlap
+* `unique-saint.txt`
+  * preys unique to saint
+* `unique-bioplex.txt`
+  * preys unique to bioplex

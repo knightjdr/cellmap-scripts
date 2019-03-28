@@ -111,3 +111,19 @@ print STDOUT "Filters: FDR - $fdr, min. interactions: $minInteraction\n";
 print STDOUT "BioPlex interactors: $bioplexPreyNum\n";
 print STDOUT "SAINT interactors: $saintPreyNum\n";
 print STDOUT "Overlap: $intersection ($intersectionPercentage%)\n";
+
+# Output unique preys from SAINT
+my @saint_unique = array_minus(@saintPreys, @bioplexPreys);
+open my $outputSaintFH, '>', 'unique-saint-m' . $minInteraction . '.txt';
+foreach my $prey (@saint_unique) {
+  print $outputSaintFH "$prey\n";
+}
+close $outputSaintFH;
+
+# Output unique interactions from BioPlex
+my @bioplex_unique = array_minus(@bioplexPreys, @saintPreys);
+open my $outputBioplexFH, '>', 'unique-bioplex-m' . $minInteraction . '.txt';
+foreach my $prey (@bioplex_unique) {
+  print $outputBioplexFH "$prey\n";
+}
+close $outputBioplexFH;
