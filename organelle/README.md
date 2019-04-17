@@ -25,4 +25,4 @@ Requires:
   1. the number of baits the preys were seen with
   2. the number of preys
   3. the number of preys in the highlight list
-  4. prey names (an astericks indicates if it is in the highlight list)
+  4. prey names (an asterisks indicates if it is in the highlight list)
