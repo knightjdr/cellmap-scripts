@@ -136,6 +136,10 @@ Requires:
   * column for whether localization is known
   * column for whether score is confident or not
 
+### Robustness box plot
+
+After running cmgo nmf-robustness module, use the file `robustness.txt` with this script to generate boxplots
+
 ### Assess prey moonlighting
 
 For each prey calculate whether it has a secondary localization within X% of its primary. X is set from 0-1 in 0.01 increments.
