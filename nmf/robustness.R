@@ -17,7 +17,7 @@ for (i in 1:20) {
     data = rankData,
     outline = FALSE,
     las = 2,
-    xlab = "Percentage of Genes(%)",
+    xlab = "Percentage of Genes (%)",
     ylab = "RBD",
     main = title,
     xaxt='n',
