@@ -19,7 +19,7 @@ The bait gene map should be formatted like so:
 
 1. Run script
 ```
-"$CMSCRIPTS"/assessment/saint-summary.pl -m bait-gene.txt -s saint.txt
+$CMSCRIPTS/assessment/saint-summary.pl -m bait-gene.txt -s saint.txt
 ```
 
 ### Reproducibility
@@ -32,7 +32,7 @@ Requires:
 
 1. Run script
 ```
-"$CMSCRIPTS"/assessment/repCheck.R saint.txt 0.01
+$CMSCRIPTS/assessment/repCheck.R saint.txt 0.01
 ```
 
 2. Output:

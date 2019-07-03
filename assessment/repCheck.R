@@ -38,7 +38,7 @@ for (i in 1:length(baits)) {
   rsquared$rsquared[i] = round(model$r.squared, 3)
   rsquared$adj_rsquared[i] = round(model$adj.r.squared, 3)
   # plot
-  plot(x, y, xlab = "rep 1", xlim=c(0, max(x)), ylab = "rep 2", ylim = c(0, max(y)))
+  plot(x, y, xlab = "replicate 1", xlim=c(0, max(x)), ylab = "replicate 2", ylim = c(0, max(y)))
   if (length(x) > 1) {
     abline(lm(y ~ x), lty = 2)
   }
