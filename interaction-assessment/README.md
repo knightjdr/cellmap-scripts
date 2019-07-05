@@ -49,7 +49,7 @@ Requires
 * bait-level-recovery.txt
 * edge-recovered.txt for plotting known bait-prey interaction partners on Cytoscape
 
-### Bait assessment, top 25 preys by abudance
+### Bait assessment, top 25 preys by abundance
 
 * SAINT file
 * interaction file from BioGRID, Intact or merged
