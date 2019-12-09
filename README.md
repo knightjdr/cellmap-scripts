@@ -1,5 +1,8 @@
 # Cell map analysis scripts
 
+> Scripts are currently being migrated to GO and can be found
+> at this repo: https://github.com/knightjdr/cmgo
+
 Scripts used for analyzing data at the cell-map.org. All perl scripts can be run with the -h flag for command line options.
 
 ## Script order
