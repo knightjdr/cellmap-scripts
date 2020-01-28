@@ -11,7 +11,7 @@ scores <- as.matrix(scores)
 if (length(args) < 3) {
   corrCutoff = 0.7
 } else {
-  corrCutoff = args[3]
+  corrCutoff = as.numeric(args[3])
 }
 
 # get new heatmap
